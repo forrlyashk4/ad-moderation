@@ -6,13 +6,32 @@ import {
 } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { getAdsList } from "../../../entities/ad";
+import { AdListPagination } from "../../../features/ad-list-pagination";
+import { Link, useSearchParams } from "react-router";
 
 const { Title, Text } = Typography;
 
+const parsePage = (value: string | null): number => {
+  const n = Number(value);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+};
+
 export default function AdList() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = parsePage(searchParams.get("page"));
+
+  const handlePageChange = (nextPage: number) => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set("page", String(nextPage));
+      return params;
+    });
+  };
+
   const { isPending, error, data } = useQuery({
-    queryKey: ["adsList"],
-    queryFn: () => getAdsList(),
+    queryKey: ["adsList", page],
+    queryFn: () => getAdsList({ page }),
   });
 
   if (isPending)
@@ -26,7 +45,7 @@ export default function AdList() {
       />
     );
 
-  if (!data?.ads?.length)
+  if (!data?.ads?.length || !data?.pagination?.totalItems)
     return (
       <Result
         icon={<SmileOutlined />}
@@ -47,7 +66,7 @@ export default function AdList() {
                   src={adItem.images[0] || "https://placehold.co/600x400"}
                   style={{
                     width: "100%",
-                    height: "100%",
+                    minWidth: "100%",
                     objectFit: "cover",
                   }}
                 />
@@ -74,9 +93,16 @@ export default function AdList() {
                     <Text style={{ display: "block", marginBottom: "10px" }}>
                       {adItem.status}
                     </Text>
-                    <Button color="default" variant="filled" size="large" block>
-                      Открыть
-                    </Button>
+                    <Link to={`/item/${adItem.id}`}>
+                      <Button
+                        color="default"
+                        variant="filled"
+                        size="large"
+                        block
+                      >
+                        Открыть
+                      </Button>
+                    </Link>
                   </div>
                 </Flex>
               </Col>
@@ -84,6 +110,12 @@ export default function AdList() {
           </Card>
         );
       })}
+      <AdListPagination
+        itemsPerPage={data.pagination.itemsPerPage}
+        totalItems={data.pagination.totalItems}
+        currentPage={page}
+        handlePageChange={handlePageChange}
+      />
     </Flex>
   );
 }

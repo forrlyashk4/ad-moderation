@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { AdList } from "../widgets/ads-list";
+import { AdList } from "../widgets/ad-list";
+import { BrowserRouter, Routes, Route } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -18,8 +19,11 @@ window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <h1>Шапка приложения</h1>
-      <AdList />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/list?" element={<AdList />} />
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>
 );
