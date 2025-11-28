@@ -17,16 +17,8 @@ type Ad = {
     totalAds: number;
     registeredAt: string;
   };
-  characteristics: AdCharacteristics;
+  characteristics: Record<string, string>;
   moderationHistory: AdModerationHistory[];
-};
-
-type AdCharacteristics = {
-  Состояние: "Новое" | "Б/у" | "Отличное" | "Хорошее" | "Удовлетворительное";
-  Гарантия: "Есть" | "Нет" | "Частичная";
-  Производитель: string;
-  Модель: string | number;
-  Цвет: string;
 };
 
 type AdModerationHistory = {
@@ -35,9 +27,7 @@ type AdModerationHistory = {
   moderatorName: string;
   action: string;
   reason: string | null;
-  comment:
-    | "Объявление не соответствует правилам платформы"
-    | "Объявление прошло модерацию успешно";
+  comment: string;
   timestamp: string;
 };
 
