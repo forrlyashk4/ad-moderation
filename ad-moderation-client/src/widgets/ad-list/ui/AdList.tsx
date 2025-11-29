@@ -45,7 +45,7 @@ export default function AdList() {
       />
     );
 
-  if (!data?.ads?.length || !data?.pagination?.totalItems)
+  if (!data?.ads?.length)
     return (
       <Result
         icon={<SmileOutlined />}
@@ -60,16 +60,34 @@ export default function AdList() {
           <Card style={{ marginBottom: 16 }} key={adItem.id}>
             <Row gutter={16}>
               <Col span={8}>
-                <img
-                  draggable={false}
-                  alt={adItem.title}
-                  src={adItem.images[0] || "https://placehold.co/600x400"}
+                <div
                   style={{
                     width: "100%",
                     minWidth: "100%",
-                    objectFit: "cover",
+                    position: "relative",
+                    paddingTop: "66.666%",
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  {/* Кастыль, чтобы при подгрузке картинок верстка
+                  не прыгала. Может, стоит заюзать Skeleton и в целом сделать
+                  это по-красивше... todo */}
+                  <img
+                    draggable={false}
+                    alt={adItem.title}
+                    src={adItem.images[0] || "https://placehold.co/600x400"}
+                    width={600}
+                    height={400}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
               </Col>
               <Col span={10}>
                 <Flex vertical>
@@ -110,12 +128,14 @@ export default function AdList() {
           </Card>
         );
       })}
-      <AdListPagination
-        itemsPerPage={data.pagination.itemsPerPage}
-        totalItems={data.pagination.totalItems}
-        currentPage={page}
-        handlePageChange={handlePageChange}
-      />
+      {data.pagination && (
+        <AdListPagination
+          itemsPerPage={data.pagination.itemsPerPage}
+          totalItems={data.pagination.totalItems}
+          currentPage={page}
+          handlePageChange={handlePageChange}
+        />
+      )}
     </Flex>
   );
 }

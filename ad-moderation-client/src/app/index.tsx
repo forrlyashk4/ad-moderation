@@ -21,7 +21,8 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="/list?" element={<AdList />} />
+          <Route path="/" element={<AdList />} />
+          <Route path="/list" element={<AdList />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
