@@ -31,4 +31,10 @@ type AdModerationHistory = {
   timestamp: string;
 };
 
-export type { Ad };
+const StatusTitles = {
+  pending: "На модерации",
+  rejected: "Отклонено",
+  approved: "Одобрено",
+} as const;
+
+export { type Ad, StatusTitles };

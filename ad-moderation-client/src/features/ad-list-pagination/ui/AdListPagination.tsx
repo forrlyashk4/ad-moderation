@@ -19,6 +19,7 @@ export default function AdListPagination({
       pageSize={itemsPerPage}
       total={totalItems}
       showSizeChanger={false}
+      style={{ marginBottom: "16px" }}
     />
   );
 }

@@ -1,33 +1,23 @@
-import { Flex, Card, Col, Row, Typography, Button, Result } from "antd";
 import {
   SmileOutlined,
   LoadingOutlined,
   ExclamationCircleFilled,
+  FireOutlined,
+  FireFilled,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
-import { useQuery } from "@tanstack/react-query";
-import { getAdsList } from "../../../entities/ad";
 import { AdListPagination } from "../../../features/ad-list-pagination";
-import { Link, useSearchParams } from "react-router";
+import { useAdListQuery } from "../../../features/ad-list-query";
+import { getAdsList, StatusTitles } from "../../../entities/ad";
+import { Flex, Card, Result, Typography } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { formatDate } from "../../../shared";
+import { Link } from "react-router";
 
-const { Title, Text } = Typography;
-
-const parsePage = (value: string | null): number => {
-  const n = Number(value);
-  return Number.isFinite(n) && n > 0 ? n : 1;
-};
+const { Title } = Typography;
 
 export default function AdList() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const page = parsePage(searchParams.get("page"));
-
-  const handlePageChange = (nextPage: number) => {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-      params.set("page", String(nextPage));
-      return params;
-    });
-  };
+  const { page, setPage } = useAdListQuery();
 
   const { isPending, error, data } = useQuery({
     queryKey: ["adsList", page],
@@ -54,88 +44,75 @@ export default function AdList() {
     );
 
   return (
-    <Flex vertical>
-      {data.ads.map((adItem) => {
-        return (
-          <Card style={{ marginBottom: 16 }} key={adItem.id}>
-            <Row gutter={16}>
-              <Col span={8}>
-                <div
-                  style={{
-                    width: "100%",
-                    minWidth: "100%",
-                    position: "relative",
-                    paddingTop: "66.666%",
-                    overflow: "hidden",
-                  }}
-                >
-                  {/* Кастыль, чтобы при подгрузке картинок верстка
-                  не прыгала. Может, стоит заюзать Skeleton и в целом сделать
-                  это по-красивше... todo */}
-                  <img
-                    draggable={false}
-                    alt={adItem.title}
-                    src={adItem.images[0] || "https://placehold.co/600x400"}
-                    width={600}
-                    height={400}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-              </Col>
-              <Col span={10}>
-                <Flex vertical>
-                  <Title level={4}>{adItem.title}</Title>
-                  <Text>{adItem.price} ₽</Text>
-                  <Text>{adItem.category}</Text>
-                  <Text>{adItem.createdAt}</Text>
-                </Flex>
-              </Col>
-              <Col span={6}>
-                <Flex
-                  vertical
-                  justify="space-between"
-                  align="end"
-                  style={{ height: "100%", width: "100%" }}
-                >
-                  <Title level={5} type="warning">
-                    {adItem.priority}
-                  </Title>
-                  <div style={{ width: "100%", textAlign: "right" }}>
-                    <Text style={{ display: "block", marginBottom: "10px" }}>
-                      {adItem.status}
-                    </Text>
-                    <Link to={`/item/${adItem.id}`}>
-                      <Button
-                        color="default"
-                        variant="filled"
-                        size="large"
-                        block
-                      >
-                        Открыть
-                      </Button>
-                    </Link>
-                  </div>
-                </Flex>
-              </Col>
-            </Row>
-          </Card>
-        );
-      })}
+    <div>
+      <Flex
+        wrap
+        gap="large"
+        justify="space-evenly"
+        style={{ marginBottom: "24px" }}
+      >
+        {data.ads.map((adItem) => {
+          return (
+            <Card
+              style={
+                adItem.priority === "urgent"
+                  ? {
+                      width: 300,
+                      boxShadow: "0 2px 8px #7aa9eaff",
+                      borderRadius: 8,
+                      border: `1px solid #7aa9eaff`,
+                    }
+                  : { width: 300 }
+              }
+              cover={
+                <img
+                  alt={adItem.title}
+                  src={adItem.images[0]}
+                  style={
+                    adItem.priority === "urgent"
+                      ? {
+                          border: "1px solid #7aa9eaff",
+                          borderBottom: "none",
+                          boxSizing: "border-box",
+                        }
+                      : { boxSizing: "border-box" }
+                  }
+                />
+              }
+              actions={[
+                <CheckCircleOutlined />, // todo: add checking
+                adItem.priority === "urgent" ? (
+                  <FireFilled style={{ color: "#1677ff", cursor: "default" }} />
+                ) : (
+                  <FireOutlined style={{ cursor: "default" }} />
+                ),
+                <Link to={`/item/${adItem.id}`}>Открыть</Link>,
+              ]}
+            >
+              <Title level={5} style={{ marginTop: 0 }}>
+                {adItem.title}
+              </Title>
+              <p>
+                {adItem.price} ₽
+                <br />
+                {adItem.category}
+                <br />
+                {formatDate(adItem.createdAt)}
+                <br />
+                {StatusTitles[adItem.status]}
+              </p>
+            </Card>
+          );
+        })}
+      </Flex>
       {data.pagination && (
         <AdListPagination
           itemsPerPage={data.pagination.itemsPerPage}
           totalItems={data.pagination.totalItems}
           currentPage={page}
-          handlePageChange={handlePageChange}
+          handlePageChange={setPage}
         />
       )}
-    </Flex>
+    </div>
   );
 }
