@@ -7,6 +7,7 @@ import {
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import { AdListPagination } from "../../../features/ad-list-pagination";
+import { AdListFilters } from "../../../features/ad-list-filters";
 import { useAdListQuery } from "../../../features/ad-list-query";
 import { getAdsList, StatusTitles } from "../../../entities/ad";
 import { Flex, Card, Result, Typography } from "antd";
@@ -45,6 +46,7 @@ export default function AdList() {
 
   return (
     <div>
+      <AdListFilters />
       <Flex
         wrap
         gap="large"
@@ -84,7 +86,7 @@ export default function AdList() {
                 adItem.priority === "urgent" ? (
                   <FireFilled style={{ color: "#1677ff", cursor: "default" }} />
                 ) : (
-                  <FireOutlined style={{ cursor: "default" }} />
+                  <FireOutlined style={{ cursor: "default" }} /> // todo: remove hover effect
                 ),
                 <Link to={`/item/${adItem.id}`}>Открыть</Link>,
               ]}
