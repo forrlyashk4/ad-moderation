@@ -8,11 +8,11 @@ const { Text } = Typography;
 
 export default function AdListFilters({
   status,
-  categoryID,
+  categoryId,
   setParam,
 }: {
   status: string[];
-  categoryID: string;
+  categoryId: string;
   setParam: (name: string, next: string | number | string[]) => void;
 }) {
   return (
@@ -24,7 +24,7 @@ export default function AdListFilters({
     >
       <Text strong>Фильтры: </Text>
       <StatusFilter status={status} setParam={setParam} />
-      <CategoryFilter categoryID={categoryID} />
+      <CategoryFilter categoryId={categoryId} setParam={setParam} />
       <PriceFilter />
       <SearchFilter />
       <Button color="danger" variant="text" size="small">

@@ -15,7 +15,7 @@ export default function StatusFilter({
     <Select
       placeholder="Статус"
       mode="multiple"
-      defaultValue={status}
+      value={status}
       allowClear
       style={{ minWidth: 160, fontFamily: "var(--ant-font-family)" }}
       showSearch={{

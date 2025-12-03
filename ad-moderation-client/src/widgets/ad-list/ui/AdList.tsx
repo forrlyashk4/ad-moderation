@@ -18,12 +18,16 @@ import { Link } from "react-router";
 const { Title } = Typography;
 
 export default function AdList() {
-  const { page, status, categoryID, setParam } = useAdListQuery();
+  const { page, status, categoryId, setParam } = useAdListQuery();
 
   const { isPending, error, data } = useQuery({
-    queryKey: ["adsList", page, status],
+    queryKey: ["adsList", page, status, categoryId],
     queryFn: () => {
-      return getAdsList({ page, status });
+      return getAdsList({
+        page,
+        status,
+        categoryId: categoryId === "" ? undefined : +categoryId,
+      });
     },
   });
 
@@ -42,7 +46,7 @@ export default function AdList() {
     <div>
       <AdListFilters
         status={status}
-        categoryID={categoryID}
+        categoryId={categoryId}
         setParam={setParam}
       />
       <Flex
