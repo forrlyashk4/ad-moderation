@@ -22,7 +22,7 @@ export function useAdListQuery() {
 
   const page = parsePage(searchParams.get("page"));
   const status = parseStatus(searchParams.get("status"));
-  const categoryID = searchParams.get("category") || "";
+  const categoryId = searchParams.get("categoryId") || "";
   const priceFrom = searchParams.get("priceFrom") || "";
   const priceTo = searchParams.get("priceTo") || "";
   const searchText = searchParams.get("searchText") || "";
@@ -36,7 +36,7 @@ export function useAdListQuery() {
   return {
     page,
     status,
-    categoryID,
+    categoryId,
     priceFrom,
     priceTo,
     searchText,
