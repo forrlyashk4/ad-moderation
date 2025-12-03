@@ -23,9 +23,9 @@ export function useAdListQuery() {
   const page = parsePage(searchParams.get("page"));
   const status = parseStatus(searchParams.get("status"));
   const categoryId = searchParams.get("categoryId") || "";
-  const priceFrom = searchParams.get("priceFrom") || "";
-  const priceTo = searchParams.get("priceTo") || "";
-  const searchText = searchParams.get("searchText") || "";
+  const maxPrice = searchParams.get("maxPrice") || "";
+  const minPrice = searchParams.get("minPrice") || "";
+  const search = searchParams.get("search") || "";
 
   const setParam = (name: string, next: number | string | string[]) => {
     const params = new URLSearchParams(searchParams);
@@ -37,9 +37,9 @@ export function useAdListQuery() {
     page,
     status,
     categoryId,
-    priceFrom,
-    priceTo,
-    searchText,
+    maxPrice,
+    minPrice,
+    search,
     setParam,
   };
 }
