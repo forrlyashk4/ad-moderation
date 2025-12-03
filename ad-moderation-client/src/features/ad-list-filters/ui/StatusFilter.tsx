@@ -1,10 +1,21 @@
 import { Select } from "antd";
 
-export default function StatusFilter() {
+export default function StatusFilter({
+  status,
+  setParam,
+}: {
+  status: string[];
+  setParam: (name: string, next: string | number | string[]) => void;
+}) {
+  const handleChange = (value: string[]) => {
+    setParam("status", value);
+  };
+
   return (
     <Select
       placeholder="Статус"
       mode="multiple"
+      defaultValue={status}
       allowClear
       style={{ minWidth: 160, fontFamily: "var(--ant-font-family)" }}
       showSearch={{
@@ -14,7 +25,7 @@ export default function StatusFilter() {
             .toLowerCase()
             .localeCompare((optionB?.label ?? "").toLowerCase()),
       }}
-      //   onChange={handleChange}
+      onChange={handleChange}
       options={[
         { value: "pending", label: "На рассмотрении" },
         { value: "approved", label: "Одобрено" },

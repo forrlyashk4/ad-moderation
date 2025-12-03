@@ -1,10 +1,11 @@
 import { Select } from "antd";
 import { categories } from "../model";
 
-export default function StatusFilter() {
+export default function StatusFilter({ categoryID }: { categoryID: string }) {
   return (
     <Select
       placeholder="Категория"
+      defaultValue={categoryID === "" ? undefined : categories[+categoryID]}
       allowClear
       style={{
         minWidth: 160,
