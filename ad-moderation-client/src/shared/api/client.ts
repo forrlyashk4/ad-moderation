@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// todo: перепроверить этот файл, он сгенерен llm
 import { API_BASE_URL } from "./config";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -35,7 +36,14 @@ export function buildUrl(path: string, params?: Record<string, any>) {
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value === undefined || value === null) return;
-      url.searchParams.append(key, String(value));
+
+      if (Array.isArray(value)) {
+        value.forEach((v) => {
+          url.searchParams.append(key, String(v));
+        });
+      } else {
+        url.searchParams.append(key, String(value));
+      }
     });
   }
 

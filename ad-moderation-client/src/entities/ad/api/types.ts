@@ -1,10 +1,10 @@
 import type { Pagination } from "../../../shared";
-import type { Ad } from "../model";
+import type { Ad, AdStatus } from "../model";
 
 type GETAdsListRequest = {
   page?: number;
   limit?: number;
-  status?: "pending" | "approved" | "rejected" | "draft";
+  status?: AdStatus[];
   categoryId?: number;
   minPrice?: number;
   maxPrice?: number;

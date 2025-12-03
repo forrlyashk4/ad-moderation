@@ -5,7 +5,7 @@ type Ad = {
   price: number;
   category: string;
   categoryId: number;
-  status: "pending" | "approved" | "rejected";
+  status: AdStatus;
   priority: "normal" | "urgent";
   createdAt: string;
   updatedAt: string;
@@ -31,10 +31,13 @@ type AdModerationHistory = {
   timestamp: string;
 };
 
+type AdStatus = "pending" | "approved" | "rejected" | "draft";
+
 const StatusTitles = {
   pending: "На модерации",
   rejected: "Отклонено",
   approved: "Одобрено",
+  draft: "Черновик",
 } as const;
 
-export { type Ad, StatusTitles };
+export { type Ad, type AdStatus, StatusTitles };

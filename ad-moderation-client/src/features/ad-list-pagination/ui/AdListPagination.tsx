@@ -9,13 +9,13 @@ export default function AdListPagination({
   totalItems: number;
   itemsPerPage: number;
   currentPage: number;
-  handlePageChange: (nextPage: number) => void;
+  handlePageChange: (name: string, next: number | string | string[]) => void;
 }) {
   return (
     <Pagination
       align="center"
       current={currentPage}
-      onChange={handlePageChange}
+      onChange={(page) => handlePageChange("page", page)}
       pageSize={itemsPerPage}
       total={totalItems}
       showSizeChanger={false}
