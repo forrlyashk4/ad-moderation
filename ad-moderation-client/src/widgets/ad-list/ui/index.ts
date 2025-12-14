@@ -1,3 +1,1 @@
-import AdList from "./AdList.tsx";
-
-export { AdList };
+export * from "./AdListWidget.tsx";

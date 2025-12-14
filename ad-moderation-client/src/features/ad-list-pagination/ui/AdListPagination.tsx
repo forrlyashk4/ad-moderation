@@ -1,25 +1,23 @@
 import { Pagination } from "antd";
+import { paginationStore } from "../../../entities/ad-list";
+import { observer } from "mobx-react-lite";
 
-export default function AdListPagination({
+export const AdListPagination = observer(function ({
   totalItems,
   itemsPerPage,
-  currentPage,
-  handlePageChange,
 }: {
   totalItems: number;
   itemsPerPage: number;
-  currentPage: number;
-  handlePageChange: (name: string, next: number | string | string[]) => void;
 }) {
   return (
     <Pagination
       align="center"
-      current={currentPage}
-      onChange={(page) => handlePageChange("page", page)}
+      current={paginationStore.currentPage}
+      onChange={paginationStore.changePage}
       pageSize={itemsPerPage}
       total={totalItems}
       showSizeChanger={false}
       style={{ marginBottom: "16px" }}
     />
   );
-}
+});

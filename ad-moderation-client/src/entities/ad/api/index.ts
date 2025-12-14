@@ -1,3 +1,2 @@
-import { getAdsList } from "./get-ads-list";
-
-export { getAdsList };
+export { getAdsList } from "./get-ads-list";
+export type { GETAdsListRequest, GETAdsListResponse } from "./types";

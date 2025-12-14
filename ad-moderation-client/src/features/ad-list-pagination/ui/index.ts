@@ -1,3 +1,1 @@
-import AdListPagination from "./AdListPagination.tsx";
-
-export { AdListPagination };
+export * from "./AdListPagination.tsx";
