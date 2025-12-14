@@ -1,23 +1,19 @@
 import { Input } from "antd";
+import { memo } from "react";
 
-export default function SearchFilter({
-  search,
-  setParam,
+export const SearchFilter = memo(function SearchFilter({
+  value,
+  onChange,
 }: {
-  search: string;
-  setParam: (name: string, next: string | number | string[]) => void;
+  value: string;
+  onChange: (nextStatus: string) => void;
 }) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = e.target;
-    setParam("search", inputValue);
-  };
-
   return (
     <Input
       style={{ width: 240 }}
-      value={search === "" ? undefined : search}
-      onChange={handleChange}
+      value={value === "" ? undefined : value}
+      onChange={(e) => onChange(e.target.value)}
       placeholder="Поиск по названию"
     />
   );
-}
+});

@@ -1,21 +1,18 @@
 import { Select } from "antd";
+import { memo } from "react";
 
-export default function StatusFilter({
-  status,
-  setParam,
+export const StatusFilter = memo(function StatusFilter({
+  value,
+  onChange,
 }: {
-  status: string[];
-  setParam: (name: string, next: string | number | string[]) => void;
+  value: string;
+  onChange: (nextStatus: string) => void;
 }) {
-  const handleChange = (value: string[]) => {
-    setParam("status", value);
-  };
-
   return (
     <Select
       placeholder="Статус"
       mode="multiple"
-      value={status}
+      value={value === "" ? null : value}
       allowClear
       style={{ minWidth: 160, fontFamily: "var(--ant-font-family)" }}
       showSearch={{
@@ -25,7 +22,7 @@ export default function StatusFilter({
             .toLowerCase()
             .localeCompare((optionB?.label ?? "").toLowerCase()),
       }}
-      onChange={handleChange}
+      onChange={onChange}
       options={[
         { value: "pending", label: "На рассмотрении" },
         { value: "approved", label: "Одобрено" },
@@ -34,4 +31,4 @@ export default function StatusFilter({
       ]}
     />
   );
-}
+});

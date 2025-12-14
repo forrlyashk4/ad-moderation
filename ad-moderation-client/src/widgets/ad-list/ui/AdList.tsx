@@ -14,7 +14,7 @@ import type { GETAdsListResponse } from "../../../entities/ad/api/types";
 
 export const AdList = function ({ data }: { data: GETAdsListResponse }) {
   return (
-    <Flex
+    <Flex // todo: change to Grid component
       wrap
       gap="large"
       justify="space-evenly"

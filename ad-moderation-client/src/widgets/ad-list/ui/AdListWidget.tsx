@@ -1,9 +1,6 @@
 import { LoadingOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { AdListPagination } from "../../../features/ad-list-pagination";
-import {
-  AdListFilters,
-  useAdListQuery,
-} from "../../../features/ad-list-filters";
+import { useAdListQuery } from "../../../features/ad-list-filters";
 import { getAdsList } from "../../../entities/ad";
 import { Result } from "antd";
 import { useQuery } from "@tanstack/react-query";
@@ -12,27 +9,26 @@ import { paginationStore } from "../../../entities/ad-list";
 import { AdList } from "./AdList";
 
 export const AdListWidget = observer(function () {
-  const { status, maxPrice, minPrice, categoryId, search, setParam } =
-    useAdListQuery();
+  const { filters } = useAdListQuery();
 
   const { isPending, error, data } = useQuery({
     queryKey: [
-      "adsList", // todo: проверить, нужно ли это вообще
+      "adList", // todo: проверить, нужно ли это вообще
       paginationStore.currentPage,
-      status,
-      categoryId,
-      maxPrice,
-      minPrice,
-      search,
+      filters.status,
+      filters.category,
+      filters.maxPrice,
+      filters.minPrice,
+      filters.searchText,
     ],
     queryFn: () => {
       return getAdsList({
         page: paginationStore.currentPage,
-        status,
-        minPrice: minPrice === "" ? undefined : +minPrice,
-        maxPrice: maxPrice === "" ? undefined : +maxPrice,
-        search,
-        categoryId: categoryId === "" ? undefined : +categoryId,
+        status: filters.status,
+        minPrice: filters.minPrice === "" ? undefined : +filters.minPrice,
+        maxPrice: filters.maxPrice === "" ? undefined : +filters.maxPrice,
+        search: filters.searchText,
+        categoryId: filters.category === "" ? undefined : +filters.category,
       });
     },
   });
@@ -47,14 +43,6 @@ export const AdListWidget = observer(function () {
 
   return (
     <div>
-      <AdListFilters
-        status={status}
-        categoryId={categoryId}
-        minPrice={minPrice}
-        maxPrice={maxPrice}
-        setParam={setParam}
-        search={search}
-      />
       {isPending ? (
         <Result icon={<LoadingOutlined spin />} title="Идёт загрузка" />
       ) : (

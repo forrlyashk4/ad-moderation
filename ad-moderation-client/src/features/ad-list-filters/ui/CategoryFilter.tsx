@@ -1,21 +1,18 @@
 import { Select } from "antd";
 import { categories } from "../model";
+import { memo } from "react";
 
-export default function StatusFilter({
-  categoryId,
-  setParam,
+export const CategoryFilter = memo(function CategoryFilter({
+  value,
+  onChange,
 }: {
-  categoryId: string;
-  setParam: (name: string, next: string | number | string[]) => void;
+  value: string;
+  onChange: (nextStatus: string) => void;
 }) {
-  const handleChange = (value: number) => {
-    setParam("categoryId", value === 0 ? "0" : String(value || ""));
-  };
-
   return (
     <Select
       placeholder="Категория"
-      value={categoryId === "" ? undefined : Number(categoryId)}
+      value={value === "" ? null : value}
       allowClear
       style={{
         minWidth: 160,
@@ -28,10 +25,12 @@ export default function StatusFilter({
             .toLowerCase()
             .localeCompare((optionB?.label ?? "").toLowerCase()),
       }}
-      onChange={handleChange}
+      onChange={(next: string) =>
+        next != undefined ? onChange(next) : onChange("")
+      }
       options={categories.map((label, index) => {
         return { value: index, label };
       })}
     />
   );
-}
+});

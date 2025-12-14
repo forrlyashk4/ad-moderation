@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { AdListWidget } from "../widgets/ad-list";
+import { List } from "../pages/list";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -21,8 +21,8 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AdListWidget />} />
-          <Route path="/list" element={<AdListWidget />} />
+          <Route path="/" element={<List />} />
+          <Route path="/list" element={<List />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

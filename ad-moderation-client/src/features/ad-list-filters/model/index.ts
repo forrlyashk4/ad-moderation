@@ -13,6 +13,7 @@ const categories = [
 ];
 
 // todo: прописать валидацию инпутов стоимостей
+// todo: разбить на несколько файлов по логике
 
 const ALL_STATUSES: AdStatus[] = ["approved", "pending", "rejected", "draft"];
 
@@ -28,26 +29,28 @@ const parseStatus = (value: string | null): AdStatus[] => {
 const useAdListQuery = function () {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const status = parseStatus(searchParams.get("status"));
-  const categoryId = searchParams.get("categoryId") || "";
-  const maxPrice = searchParams.get("maxPrice") || "";
-  const minPrice = searchParams.get("minPrice") || "";
-  const search = searchParams.get("search") || "";
+  const filters = {
+    status: parseStatus(searchParams.get("status")),
+    category: searchParams.get("category") ?? "",
+    minPrice: searchParams.get("minPrice") ?? "",
+    maxPrice: searchParams.get("maxPrice") ?? "",
+    searchText: searchParams.get("searchText") ?? "",
+  };
 
-  const setParam = (name: string, next: number | string | string[]) => {
+  const setParams = (next: Record<string, string | number | string[]>) => {
     const params = new URLSearchParams(searchParams);
-    params.set(name, String(next));
+
+    for (const [name, value] of Object.entries(next)) {
+      const v = Array.isArray(value) ? value.join(",") : String(value);
+
+      if (v === "") params.delete(name);
+      else params.set(name, v);
+    }
+
     setSearchParams(params);
   };
 
-  return {
-    status,
-    categoryId,
-    maxPrice,
-    minPrice,
-    search,
-    setParam,
-  };
+  return { filters, setParams };
 };
 
 export { categories, useAdListQuery };

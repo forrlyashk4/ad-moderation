@@ -1,40 +1,33 @@
 import { Input } from "antd";
+import { memo } from "react";
 
-export default function PriceFilter({
+export const PriceFilter = memo(function PriceFilter({
   minPrice,
   maxPrice,
-  setParam,
+  onChangeMin,
+  onChangeMax,
 }: {
   minPrice: string;
   maxPrice: string;
-  setParam: (name: string, next: string | number | string[]) => void;
+  onChangeMin: (nextStatus: string) => void;
+  onChangeMax: (nextStatus: string) => void;
 }) {
-  const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = e.target;
-    setParam("minPrice", inputValue);
-  };
-
-  const handleChangeMaxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = e.target;
-    setParam("maxPrice", inputValue);
-  };
-
   return (
     <div>
       <Input
         style={{ width: 90 }}
         value={minPrice === "" ? undefined : minPrice}
         placeholder="От ₽"
-        onChange={handleChangeMinPrice}
+        onChange={(e) => onChangeMin(e.target.value)}
         maxLength={6}
       />
       <Input
         style={{ width: 90, marginLeft: 12 }}
         value={maxPrice === "" ? undefined : maxPrice}
         placeholder="До ₽"
-        onChange={handleChangeMaxPrice}
+        onChange={(e) => onChangeMax(e.target.value)}
         maxLength={6}
       />
     </div>
-  ); // todo: необходимо добавить валидацию введённых чисел
-}
+  ); // todo: необходимо добавить валидацию введённых чисел, в том числе min < max
+});
