@@ -8,7 +8,7 @@ import { StatusTitles } from "../../../entities/ad";
 import { Flex, Card, Result, Typography } from "antd";
 import { formatDate } from "../../../shared";
 import { Link } from "react-router";
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 import type { GETAdsListResponse } from "../../../entities/ad/api/types";
 
@@ -65,7 +65,7 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
               <Title level={5} style={{ marginTop: 0 }}>
                 {adItem.title}
               </Title>
-              <p>
+              <Paragraph>
                 {adItem.price} ₽
                 <br />
                 {adItem.category}
@@ -73,7 +73,7 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
                 {formatDate(adItem.createdAt)}
                 <br />
                 {StatusTitles[adItem.status]}
-              </p>
+              </Paragraph>
             </Card>
           );
         })

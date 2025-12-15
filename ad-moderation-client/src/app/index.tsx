@@ -1,8 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { List } from "../pages/list";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { List } from "../pages/list";
+import { Item } from "../pages/item";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<List />} />
           <Route path="/list" element={<List />} />
+          <Route path="/item/:id" element={<Item />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
