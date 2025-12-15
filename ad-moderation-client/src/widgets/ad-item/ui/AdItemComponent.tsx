@@ -2,6 +2,8 @@ import { Typography, Carousel, Button, Table } from "antd";
 import { Link } from "react-router";
 import type { Ad } from "../../../entities/ad";
 import type { ColumnsType } from "antd/es/table";
+import { formatDate } from "../../../shared";
+import { ModerationActions } from "../../../entities/ad";
 
 const { Title, Paragraph } = Typography;
 
@@ -53,7 +55,7 @@ export default function AdItemComponent({ item }: { item: Ad }) {
             border: "1px solid #1677ff5b",
             borderRadius: "5px",
             boxSizing: "border-box",
-            maxHeight: "500px",
+            maxHeight: "400px",
             overflowY: "scroll",
           }}
         >
@@ -69,13 +71,13 @@ export default function AdItemComponent({ item }: { item: Ad }) {
           </Paragraph>
           <Paragraph>
             {item.seller.totalAds} объявлений | На сайте с{" "}
-            {item.seller.registeredAt}
+            {formatDate(item.seller.registeredAt)}
           </Paragraph>
         </div>
         <div
           style={{
             width: "48%",
-            maxHeight: "500px",
+            maxHeight: "400px",
             overflowY: "scroll",
             padding: "15px",
             border: "1px solid #1677ff5b",
@@ -90,7 +92,8 @@ export default function AdItemComponent({ item }: { item: Ad }) {
                 <Paragraph key={moderation.id}>
                   Модератор: {moderation.moderatorName}
                   <br />
-                  {moderation.timestamp} | {moderation.action}
+                  {formatDate(moderation.timestamp)} |{" "}
+                  {ModerationActions[moderation.action]}
                   {moderation.comment && (
                     <>
                       <br />

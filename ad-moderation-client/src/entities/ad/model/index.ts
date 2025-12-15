@@ -25,7 +25,7 @@ type AdModerationHistory = {
   id: number;
   moderatorId: number;
   moderatorName: string;
-  action: string;
+  action: "approved" | "rejected" | "requestChanges";
   reason: string | null;
   comment: string;
   timestamp: string;
@@ -40,4 +40,10 @@ const StatusTitles = {
   draft: "Черновик",
 } as const;
 
-export { type Ad, type AdStatus, StatusTitles };
+const ModerationActions = {
+  approved: "Принято",
+  rejected: "Отклонено",
+  requestChanges: "Нужны изменения",
+} as const;
+
+export { type Ad, type AdStatus, StatusTitles, ModerationActions };
