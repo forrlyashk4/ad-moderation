@@ -1,82 +1,45 @@
 import { Typography, Carousel, Button, Table } from "antd";
 import { Link } from "react-router";
+import type { Ad } from "../../../entities/ad";
+import type { ColumnsType } from "antd/es/table";
 
 const { Title, Paragraph } = Typography;
 
-export default function AdItemDetails({ id }: { id: string | undefined }) {
-  const dataSource = [
-    {
-      key: "1",
-      value: "Размер",
-      property: "Гигантский",
-    },
-    {
-      key: "2",
-      value: "Цвет",
-      property: "Черный",
-    },
-  ];
+export default function AdItemComponent({ item }: { item: Ad }) {
+  const dataSource = Object.entries(item.characteristics).map(
+    ([key, value]) => ({
+      key,
+      property: key,
+      value,
+    })
+  );
 
-  const columns = [
-    {
-      title: "Свойство",
-      dataIndex: "property",
-      key: "property",
-    },
-    {
-      title: "Значение",
-      dataIndex: "value",
-      key: "value",
-    },
-  ];
+  const columns: ColumnsType<{ key: string; property: string; value: string }> =
+    [
+      { title: "Свойство", dataIndex: "property", key: "property" },
+      { title: "Значение", dataIndex: "value", key: "value" },
+    ];
   return (
     <div style={{ maxWidth: "786px", margin: "0 auto" }}>
-      <Title level={2}>Объявление {id}</Title>
-      <Carousel arrows>
-        <div>
-          <h3
-            style={{
-              margin: 0,
-              height: "160px",
-              color: "#fff",
-              lineHeight: "160px",
-              textAlign: "center",
-              background: "#364d79",
-            }}
-          >
-            1
-          </h3>
-        </div>
-        <div>
-          <h3
-            style={{
-              margin: 0,
-              height: "160px",
-              color: "#fff",
-              lineHeight: "160px",
-              textAlign: "center",
-              background: "#364d79",
-            }}
-          >
-            2
-          </h3>
-        </div>
-        <div>
-          <h3
-            style={{
-              margin: 0,
-              height: "160px",
-              color: "#fff",
-              lineHeight: "160px",
-              textAlign: "center",
-              background: "#364d79",
-            }}
-          >
-            3
-          </h3>
-        </div>
+      <Title level={2}>{item.title}</Title>
+      <Carousel arrows adaptiveHeight autoplay>
+        {item.images.map((img) => {
+          return (
+            <div key={img}>
+              <img src={img} alt={item.title} style={{ margin: "0 auto" }} />
+            </div>
+          );
+        })}
       </Carousel>
-      <div
+      <style>{`
+        .ant-carousel .slick-prev,
+        .ant-carousel .slick-next,
+        .ant-carousel .slick-prev:hover,
+        .ant-carousel .slick-next:hover {
+            color: black;
+        }
+      `}</style>
+      <div // todo: ну это полный пиздец со стилями сверху :)))) надеюсь уйдет после css modules
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -94,15 +57,20 @@ export default function AdItemDetails({ id }: { id: string | undefined }) {
             overflowY: "scroll",
           }}
         >
-          <Paragraph>Полное описание</Paragraph>
+          <Paragraph>{item.description}</Paragraph>
           <Table
-            dataSource={dataSource}
             columns={columns}
+            dataSource={dataSource}
             pagination={false}
             style={{ margin: "15px 0" }}
           />
-          <Paragraph>Продавец: Юлия | 5.0</Paragraph>
-          <Paragraph>15 объявлений | На сайте 3 года</Paragraph>
+          <Paragraph>
+            Продавец: {item.seller.name} | {item.seller.rating}
+          </Paragraph>
+          <Paragraph>
+            {item.seller.totalAds} объявлений | На сайте с{" "}
+            {item.seller.registeredAt}
+          </Paragraph>
         </div>
         <div
           style={{
@@ -116,13 +84,25 @@ export default function AdItemDetails({ id }: { id: string | undefined }) {
           }}
         >
           <Paragraph>История модерации</Paragraph>
-          <Paragraph>
-            Модератор: Иван Хмельницкий
-            <br />
-            24.10.2026 11:00 | Одобрено
-            <br />
-            Комментарий:
-          </Paragraph>
+          {item.moderationHistory.length > 0 ? (
+            item.moderationHistory.map((moderation) => {
+              return (
+                <Paragraph key={moderation.id}>
+                  Модератор: {moderation.moderatorName}
+                  <br />
+                  {moderation.timestamp} | {moderation.action}
+                  {moderation.comment && (
+                    <>
+                      <br />
+                      {moderation.comment}
+                    </>
+                  )}
+                </Paragraph>
+              );
+            })
+          ) : (
+            <Paragraph>Здесь ничего нет :(</Paragraph>
+          )}
         </div>
       </div>
       <div
@@ -147,7 +127,7 @@ export default function AdItemDetails({ id }: { id: string | undefined }) {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginTop: "25px",
+          margin: "25px 0 50px",
         }}
       >
         <Link
@@ -163,19 +143,19 @@ export default function AdItemDetails({ id }: { id: string | undefined }) {
         </Link>
         <div>
           <Link
-            to={`/item/${(Number(id) || 1) - 1}`} // todo: провалидировать чтобы не падало ниже единицы
+            to={`/item/${item.id - 1}`} // todo: провалидировать чтобы не падало ниже начала списка (скорее всего единицы)
             style={{
               marginRight: "15px",
               textDecoration: "none",
               color: "inherit",
               fontFamily:
                 '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-            }} // todo: сделать стили нормальными
+            }} // todo: сделать стили нормальными - CSS Modules как вариант
           >
             Предыдущее
           </Link>
           <Link
-            to={`/item/${(Number(id) || 1) + 1}`}
+            to={`/item/${item.id + 1}`} // todo: провалидировать чтобы не падало выше конца списка
             style={{
               textDecoration: "none",
               color: "inherit",

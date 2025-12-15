@@ -13,9 +13,20 @@ type GETAdsListRequest = {
   sortOrder?: "asc" | "desc";
 };
 
+type GETAdItemRequest = {
+  id: number;
+};
+
 type GETAdsListResponse = {
   ads?: Ad[];
   pagination?: Pagination;
 };
 
-export type { GETAdsListRequest, GETAdsListResponse };
+type GETAdItemResponse = Ad;
+
+export type {
+  GETAdsListRequest,
+  GETAdsListResponse,
+  GETAdItemRequest,
+  GETAdItemResponse,
+};

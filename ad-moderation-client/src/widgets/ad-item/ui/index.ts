@@ -1,3 +1,3 @@
-import AdItemDetails from "./AdItemDetails.tsx";
+import AdItemWidget from "./AdItemWidget.tsx";
 
-export { AdItemDetails };
+export { AdItemWidget };
