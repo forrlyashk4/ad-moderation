@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// todo: перепроверить этот файл, он сгенерен llm
+// todo: перепроверить этот файл, он сгенерен llm - точно ли всё нужно, точно ли всё круто?
 import { API_BASE_URL } from "./config";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";

@@ -10,7 +10,7 @@ import { formatDate } from "../../../shared";
 import { Link } from "react-router";
 const { Title, Paragraph } = Typography;
 
-import type { GETAdsListResponse } from "../../../entities/ad/api/types";
+import type { GETAdsListResponse } from "../../../entities/ad/api/types"; // todo: нужно прочекать КАЖДЫЙ импорт на предмет того, что не нарушаются правила FSD
 
 export const AdList = function ({ data }: { data: GETAdsListResponse }) {
   return (

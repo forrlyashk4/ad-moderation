@@ -1,15 +1,17 @@
-import { getAdByID } from "../../../entities/ad/api/get-ad-by-id";
-import { useQuery } from "@tanstack/react-query";
+import { getAdByID } from "../../../entities/ad/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AdItemComponent from "./AdItemComponent";
 import { Result } from "antd";
 import { LoadingOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+import { postAdAction } from "../../../entities/ad/api";
+import type {
+  POSTAdActionRequest,
+  POSTAdActionResponse,
+} from "../../../entities/ad/api";
 
 export default function AdItemWidget({ id }: { id: string | undefined }) {
   const { isPending, error, data } = useQuery({
-    queryKey: [
-      "adItem", // todo: проверить, нужно ли это вообще
-      id,
-    ],
+    queryKey: ["adItem", id],
     queryFn: () => {
       return getAdByID({
         id: Number(id),
@@ -17,9 +19,15 @@ export default function AdItemWidget({ id }: { id: string | undefined }) {
     },
   });
 
+  const queryClient = useQueryClient();
+  const action = useMutation<POSTAdActionResponse, Error, POSTAdActionRequest>({
+    mutationFn: ({ id, action, body }) => postAdAction({ id, action, body }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["adItem"] }),
+  });
+
   return (
     <>
-      {data && <AdItemComponent item={data} />}
+      {data && <AdItemComponent item={data} mutateFn={action.mutate} />}
       {error && (
         <Result
           icon={<ExclamationCircleFilled />}

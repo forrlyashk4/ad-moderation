@@ -5,7 +5,7 @@ import { getAdsList } from "../../../entities/ad";
 import { Result } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import { observer } from "mobx-react-lite";
-import { paginationStore } from "../../../entities/ad-list";
+import { paginationStore } from "../../../entities/ad-list-pagination";
 import { AdList } from "./AdList";
 
 export const AdListWidget = observer(function () {
