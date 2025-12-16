@@ -1,5 +1,5 @@
 import { Pagination } from "antd";
-import { paginationStore } from "../../../entities/ad-list";
+import { paginationStore } from "../../../entities/ad-list-pagination";
 import { observer } from "mobx-react-lite";
 
 export const AdListPagination = observer(function ({

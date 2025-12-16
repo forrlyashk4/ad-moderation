@@ -24,9 +24,31 @@ type GETAdsListResponse = {
 
 type GETAdItemResponse = Ad;
 
+type POSTAdActionRequest = {
+  id: number;
+  body?: {
+    reason:
+      | "Запрещенный товар"
+      | "Неверная категория"
+      | "Некорректное описание"
+      | "Проблемы с фото"
+      | "Подозрение на мошенничество"
+      | "Другое";
+    comment?: string;
+  };
+  action: "approve" | "reject" | "request-changes";
+};
+
+type POSTAdActionResponse = {
+  message: string;
+  ad: Ad;
+};
+
 export type {
   GETAdsListRequest,
   GETAdsListResponse,
   GETAdItemRequest,
   GETAdItemResponse,
-};
+  POSTAdActionRequest,
+  POSTAdActionResponse,
+}; // todo: по каждому api-запросу имеет смысл сделать валидацию ошибок: 400, 404 и 500

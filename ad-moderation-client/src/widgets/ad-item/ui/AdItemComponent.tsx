@@ -1,13 +1,26 @@
 import { Typography, Carousel, Button, Table } from "antd";
-import { Link } from "react-router";
-import type { Ad } from "../../../entities/ad";
 import type { ColumnsType } from "antd/es/table";
-import { formatDate } from "../../../shared";
 import { ModerationActions } from "../../../entities/ad";
+import { formatDate } from "../../../shared";
+import type { UseMutateFunction } from "@tanstack/react-query";
+import { Link } from "react-router";
+import type {
+  POSTAdActionResponse,
+  POSTAdActionRequest,
+  Ad,
+} from "../../../entities/ad";
+import { AdAbort } from "../../../features/ad-abort";
 
 const { Title, Paragraph } = Typography;
 
-export default function AdItemComponent({ item }: { item: Ad }) {
+export default function AdItemComponent({
+  item,
+  mutateFn,
+}: {
+  item: Ad;
+  // todo: адекватно ли эта запись?
+  mutateFn: UseMutateFunction<POSTAdActionResponse, Error, POSTAdActionRequest>;
+}) {
   const dataSource = Object.entries(item.characteristics).map(
     ([key, value]) => ({
       key,
@@ -48,7 +61,7 @@ export default function AdItemComponent({ item }: { item: Ad }) {
           marginTop: "25px",
         }}
       >
-        <div
+        <Typography
           style={{
             width: "48%",
             padding: "15px",
@@ -73,8 +86,8 @@ export default function AdItemComponent({ item }: { item: Ad }) {
             {item.seller.totalAds} объявлений | На сайте с{" "}
             {formatDate(item.seller.registeredAt)}
           </Paragraph>
-        </div>
-        <div
+        </Typography>
+        <Typography
           style={{
             width: "48%",
             maxHeight: "400px",
@@ -106,7 +119,7 @@ export default function AdItemComponent({ item }: { item: Ad }) {
           ) : (
             <Paragraph>Здесь ничего нет :(</Paragraph>
           )}
-        </div>
+        </Typography>
       </div>
       <div
         style={{
@@ -116,15 +129,26 @@ export default function AdItemComponent({ item }: { item: Ad }) {
           marginTop: "25px",
         }}
       >
-        <Button variant="filled" color="blue" size="large">
+        <Button
+          variant="filled"
+          color="green"
+          size="large"
+          onClick={() => mutateFn({ id: item.id, action: "approve" })}
+        >
           Одобрить
         </Button>
-        <Button variant="filled" color="danger" size="large">
-          Отклонить
-        </Button>
-        <Button variant="filled" size="large">
-          На доработку
-        </Button>
+        <AdAbort
+          id={item.id}
+          title="Отклонить"
+          mutateFn={mutateFn}
+          actionName="reject"
+        />
+        <AdAbort
+          id={item.id}
+          title="На доработку"
+          mutateFn={mutateFn}
+          actionName="request-changes"
+        />
       </div>
       <div
         style={{
