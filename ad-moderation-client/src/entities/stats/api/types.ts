@@ -30,9 +30,12 @@ type GETStatsDecisionsResponse = {
   requestChanges: number;
 };
 
+type GETStatsCategoriesResponse = Record<string, number>;
+
 export type {
   GETStatsRequest,
   GETStatsSummaryResponse,
   GETStatsActivityResponse,
   GETStatsDecisionsResponse,
+  GETStatsCategoriesResponse,
 }; // todo: по каждому api-запросу имеет смысл сделать валидацию ошибок: 400, 404 и 500

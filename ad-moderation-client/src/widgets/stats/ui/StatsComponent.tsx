@@ -15,6 +15,7 @@ import {
 import { Bar, Pie } from "react-chartjs-2";
 import type {
   GETStatsActivityResponse,
+  GETStatsCategoriesResponse,
   GETStatsDecisionsResponse,
   GETStatsSummaryResponse,
 } from "../../../entities/stats";
@@ -57,29 +58,6 @@ const decisionsOptions = {
   responsive: true,
 };
 
-const horizLabels = [
-  "Электроника",
-  "Недвижимость",
-  "Транспорт",
-  "Работа",
-  "Услуги",
-  "Животные",
-  "Мода",
-  "Детское",
-];
-
-const horizData = {
-  labels: horizLabels,
-  datasets: [
-    {
-      label: "Проверено объявлений",
-      data: [10, 12, 8, 14, 58, 12, 11, 10],
-      borderColor: "rgba(22, 119, 255, 0.5)",
-      backgroundColor: "rgba(22, 119, 255, 0.5)",
-    },
-  ],
-};
-
 const categoriesOptions = {
   indexAxis: "y" as const,
   elements: {
@@ -96,60 +74,75 @@ const categoriesOptions = {
   },
 };
 
-const normalizedActivityData = {
-  labels: [] as string[],
-  datasets: [
-    {
-      label: "Одобрено",
-      data: [] as number[],
-      borderColor: "rgba(54, 235, 96, 0.5)",
-      backgroundColor: "rgba(54, 235, 96, 0.5)",
-    },
-    {
-      label: "Отклонено",
-      data: [] as number[],
-      borderColor: "rgba(255, 99, 132, 0.5)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "На доработку",
-      data: [] as number[],
-      borderColor: "rgba(255, 206, 86, 0.5)",
-      backgroundColor: "rgba(255, 206, 86, 0.5)",
-    },
-  ],
-};
-
-const normalizedDecisionsData = {
-  labels: ["Отклонено", "Принято", "На доработку"],
-  datasets: [
-    {
-      label: "Количество объявлений",
-      data: [] as number[],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 235, 96, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)", // todo: наверное стоит привести все цвета, а уж тем более цвета отклонено принято на доработку В КОНСТАНТЫ и их реюзать
-        "rgba(54, 235, 96, 1)",
-        "rgba(255, 206, 86, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
 export default function StatsComponent({
   summaryData,
   activityData,
   decisionsData,
+  categoriesData,
 }: {
   summaryData: GETStatsSummaryResponse;
   activityData: GETStatsActivityResponse;
   decisionsData: GETStatsDecisionsResponse;
+  categoriesData: GETStatsCategoriesResponse;
 }) {
+  // todo: ощущение, что так формировать объекты - ошибка, медленно и неэффективно. узнать
+  const normalizedActivityData = {
+    labels: [] as string[],
+    datasets: [
+      {
+        label: "Одобрено",
+        data: [] as number[],
+        borderColor: "rgba(54, 235, 96, 0.5)",
+        backgroundColor: "rgba(54, 235, 96, 0.5)",
+      },
+      {
+        label: "Отклонено",
+        data: [] as number[],
+        borderColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "На доработку",
+        data: [] as number[],
+        borderColor: "rgba(255, 206, 86, 0.5)",
+        backgroundColor: "rgba(255, 206, 86, 0.5)",
+      },
+    ],
+  };
+
+  const normalizedDecisionsData = {
+    labels: ["Отклонено", "Принято", "На доработку"],
+    datasets: [
+      {
+        label: "Количество объявлений, %",
+        data: [] as number[],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 235, 96, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)", // todo: наверное стоит привести все цвета, а уж тем более цвета отклонено принято на доработку В КОНСТАНТЫ и их реюзать
+          "rgba(54, 235, 96, 1)",
+          "rgba(255, 206, 86, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const normalizedCategoriesData = {
+    labels: [] as string[],
+    datasets: [
+      {
+        label: "Объявлений проверено",
+        data: [] as number[],
+        borderColor: "rgba(22, 119, 255, 0.5)",
+        backgroundColor: "rgba(22, 119, 255, 0.5)",
+      },
+    ],
+  };
+
   activityData.forEach((item) => {
     normalizedActivityData.labels.push(item.date);
     normalizedActivityData.datasets[0].data.push(item.approved);
@@ -163,7 +156,10 @@ export default function StatsComponent({
     decisionsData.requestChanges
   );
 
-  console.log(normalizedDecisionsData);
+  for (const [category, value] of Object.entries(categoriesData)) {
+    normalizedCategoriesData.labels.push(category);
+    normalizedCategoriesData.datasets[0].data.push(value);
+  }
 
   return (
     <div style={{ maxWidth: "786px", margin: "0 auto" }}>
@@ -259,7 +255,7 @@ export default function StatsComponent({
           justifyContent: "center",
         }}
       >
-        <Bar options={categoriesOptions} data={horizData} />
+        <Bar options={categoriesOptions} data={normalizedCategoriesData} />
       </div>
     </div>
   );

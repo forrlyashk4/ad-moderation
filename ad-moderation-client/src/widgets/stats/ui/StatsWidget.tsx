@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   getStatsActivity,
+  getStatsCategories,
   getStatsDecisions,
   getStatsSummary,
 } from "../../../entities/stats";
@@ -44,27 +45,43 @@ export default function StatsWidget() {
     },
   });
 
-  if (summaryError || activityError || decisionsError)
+  const {
+    isPending: categoriesIsPending,
+    error: categoriesError,
+    data: categoriesData,
+  } = useQuery({
+    queryKey: ["statsCategories", period],
+    queryFn: () => {
+      return getStatsCategories({ period });
+    },
+  });
+
+  if (summaryError || activityError || decisionsError || categoriesError)
     return (
       <Result
         icon={<ExclamationCircleFilled />}
         title={`Произошла ошибка: ${
           summaryError?.message ||
           activityError?.message ||
-          decisionsError?.message
+          decisionsError?.message ||
+          categoriesError?.message
         }`}
       />
     );
 
   return (
     <>
-      {summaryIsPending || activityIsPending || decisionsIsPending ? (
+      {summaryIsPending ||
+      activityIsPending ||
+      decisionsIsPending ||
+      categoriesIsPending ? (
         <Result icon={<LoadingOutlined spin />} title="Идёт загрузка" />
       ) : (
         <StatsComponent
           summaryData={summaryData}
           activityData={activityData}
           decisionsData={decisionsData}
+          categoriesData={categoriesData}
         />
       )}
     </>
