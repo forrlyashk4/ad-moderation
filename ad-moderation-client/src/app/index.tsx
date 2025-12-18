@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { List } from "../pages/list";
 import { Item } from "../pages/item";
+import { Stats } from "../pages/stats";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/" element={<List />} />
           <Route path="/list" element={<List />} />
           <Route path="/item/:id" element={<Item />} />
+          <Route path="/stats" element={<Stats />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

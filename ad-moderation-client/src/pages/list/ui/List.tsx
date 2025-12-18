@@ -3,9 +3,9 @@ import { AdListWidget } from "../../../widgets/ad-list";
 
 export default function List() {
   return (
-    <div>
+    <>
       <AdListFilters />
       <AdListWidget />
-    </div>
+    </>
   );
 }

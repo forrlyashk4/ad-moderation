@@ -13,6 +13,7 @@ const { Title, Paragraph } = Typography;
 import type { GETAdsListResponse } from "../../../entities/ad/api/types"; // todo: нужно прочекать КАЖДЫЙ импорт на предмет того, что не нарушаются правила FSD
 
 export const AdList = function ({ data }: { data: GETAdsListResponse }) {
+  // todo: почему-то при назад/вперед в браузере не происходит прогрузка страницы, хотя /stats и /list прогружаются
   return (
     <Flex // todo: change to Grid component
       wrap
