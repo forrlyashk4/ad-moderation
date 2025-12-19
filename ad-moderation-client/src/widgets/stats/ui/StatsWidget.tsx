@@ -8,9 +8,10 @@ import {
 import StatsComponent from "./StatsComponent";
 import { Result } from "antd";
 import { LoadingOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+import { useState } from "react";
 
 export default function StatsWidget() {
-  const period = "month";
+  const [period, setPeriod] = useState<"week" | "month" | "today">("week");
 
   const {
     isPending: summaryIsPending,
@@ -82,6 +83,8 @@ export default function StatsWidget() {
           activityData={activityData}
           decisionsData={decisionsData}
           categoriesData={categoriesData}
+          period={period}
+          setPeriod={setPeriod}
         />
       )}
     </>

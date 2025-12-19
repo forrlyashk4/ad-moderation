@@ -1,4 +1,4 @@
-import { Typography, Card, Row, Col, Statistic } from "antd";
+import { Typography, Card, Row, Col, Statistic, Select } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const { Title: TypographyTitle } = Typography;
@@ -81,11 +81,15 @@ export default function StatsComponent({
   activityData,
   decisionsData,
   categoriesData,
+  period,
+  setPeriod,
 }: {
   summaryData: GETStatsSummaryResponse;
   activityData: GETStatsActivityResponse;
   decisionsData: GETStatsDecisionsResponse;
   categoriesData: GETStatsCategoriesResponse;
+  period: "week" | "month" | "today";
+  setPeriod: React.Dispatch<React.SetStateAction<"week" | "month" | "today">>;
 }) {
   // todo: ощущение, что так формировать объекты - ошибка, медленно и неэффективно. узнать
   const normalizedActivityData = {
@@ -183,13 +187,24 @@ export default function StatsComponent({
       </TypographyTitle>
       <TypographyTitle
         level={2}
-        style={{ marginTop: "5px", marginBottom: "25px" }}
+        style={{
+          marginTop: "5px",
+          marginBottom: "25px",
+          display: "flex",
+          gap: "16px",
+        }}
       >
         Ваша статистика за{" "}
-        <span style={{ color: "rgb(22, 119, 255)", cursor: "pointer" }}>
-          неделю
-          {/* todo: добавить остальные временные отрезки и их выбор здесь */}
-        </span>
+        <Select
+          value={period}
+          style={{ width: 120, color: "rgb(22, 119, 255)" }}
+          onChange={setPeriod}
+          options={[
+            { value: "today", label: "сегодня" },
+            { value: "week", label: "неделю" },
+            { value: "month", label: "месяц" },
+          ]}
+        />
       </TypographyTitle>
       <Row gutter={24} style={{ marginBottom: "25px" }}>
         <Col span={12}>
