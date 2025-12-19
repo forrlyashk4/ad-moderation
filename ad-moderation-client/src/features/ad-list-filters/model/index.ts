@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router";
-import type { AdStatus } from "../../../entities/ad";
+import type { AdStatus, AdSorting } from "../../../entities/ad";
 
 const categories = [
   "Электроника",
@@ -12,10 +12,20 @@ const categories = [
   "Детское",
 ];
 
+const sortBy = [
+  {
+    value: "createdAt",
+    label: "по дате создания",
+  },
+  { value: "price", label: "по цене" },
+  { value: "priority", label: "по срочности" },
+];
+
 // todo: прописать валидацию инпутов стоимостей
 // todo: разбить на несколько файлов по логике
 
 const ALL_STATUSES: AdStatus[] = ["approved", "pending", "rejected", "draft"];
+const ALL_SORTINGS: AdSorting[] = ["createdAt", "price", "priority"] as const;
 
 const parseStatus = (value: string | null): AdStatus[] => {
   if (!value) return [];
@@ -24,6 +34,14 @@ const parseStatus = (value: string | null): AdStatus[] => {
     .filter((status): status is AdStatus =>
       ALL_STATUSES.includes(status as AdStatus)
     );
+};
+
+const isAdSorting = (value: string): value is AdSorting =>
+  (ALL_SORTINGS as readonly string[]).includes(value);
+
+const parseSortings = (value: string | null): AdSorting | "" => {
+  if (!value) return "";
+  return isAdSorting(value) ? value : "";
 };
 
 const useAdListQuery = function () {
@@ -35,6 +53,7 @@ const useAdListQuery = function () {
     minPrice: searchParams.get("minPrice") ?? "",
     maxPrice: searchParams.get("maxPrice") ?? "",
     searchText: searchParams.get("searchText") ?? "",
+    sortBy: parseSortings(searchParams.get("sortBy")),
   };
 
   const setParams = (next: Record<string, string | number | string[]>) => {
@@ -53,4 +72,4 @@ const useAdListQuery = function () {
   return { filters, setParams };
 };
 
-export { categories, useAdListQuery };
+export { categories, sortBy, useAdListQuery };

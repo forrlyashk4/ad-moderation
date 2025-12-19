@@ -13,13 +13,14 @@ export const AdListWidget = observer(function () {
 
   const { isPending, error, data } = useQuery({
     queryKey: [
-      "adList", // todo: проверить, нужно ли это вообще
+      "adList",
       paginationStore.currentPage,
       filters.status,
       filters.category,
       filters.maxPrice,
       filters.minPrice,
       filters.searchText,
+      filters.sortBy,
     ],
     queryFn: () => {
       return getAdsList({
@@ -29,6 +30,7 @@ export const AdListWidget = observer(function () {
         maxPrice: filters.maxPrice === "" ? undefined : +filters.maxPrice,
         search: filters.searchText,
         categoryId: filters.category === "" ? undefined : +filters.category,
+        sortBy: filters.sortBy === "" ? undefined : filters.sortBy,
       });
     },
   });

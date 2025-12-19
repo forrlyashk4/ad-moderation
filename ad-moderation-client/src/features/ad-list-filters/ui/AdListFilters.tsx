@@ -5,6 +5,7 @@ import { PriceFilter } from "./PriceFilter";
 import { Flex, Button, Typography } from "antd";
 import { useState, useCallback } from "react";
 import { useAdListQuery } from "../model";
+import { SortByFilter } from "./SortByFilter";
 
 const { Text } = Typography;
 
@@ -14,6 +15,7 @@ type Filters = {
   minPrice: string;
   maxPrice: string;
   searchText: string;
+  sortBy: string;
 };
 
 const initialFilters: Filters = {
@@ -22,6 +24,7 @@ const initialFilters: Filters = {
   minPrice: "",
   maxPrice: "",
   searchText: "",
+  sortBy: "",
 };
 
 export default function AdListFilters() {
@@ -33,6 +36,7 @@ export default function AdListFilters() {
     minPrice: queryFilters.minPrice,
     maxPrice: queryFilters.maxPrice,
     searchText: queryFilters.searchText,
+    sortBy: queryFilters.sortBy,
   }));
 
   const setFilter = useCallback(
@@ -67,9 +71,13 @@ export default function AdListFilters() {
     [setFilter]
   );
 
+  const setSortBy = useCallback(
+    (v: Filters["sortBy"]) => setFilter("sortBy", v),
+    [setFilter]
+  );
+
   const onSearch = useCallback(() => {
     setParams(currentFilters);
-    console.log(currentFilters);
   }, [currentFilters, setParams]);
 
   const resetFilters = useCallback(() => {
@@ -94,6 +102,7 @@ export default function AdListFilters() {
         onChangeMax={setMaxPrice}
       />
       <SearchFilter value={currentFilters.searchText} onChange={setSearch} />
+      <SortByFilter value={currentFilters.sortBy} onChange={setSortBy} />
       <Button
         color="blue"
         variant="outlined"
@@ -101,7 +110,7 @@ export default function AdListFilters() {
         style={{ lineHeight: 1 }}
         onClick={onSearch}
       >
-        Поиск
+        Применить фильтры
       </Button>
       <Button
         color="danger"

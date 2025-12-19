@@ -33,6 +33,8 @@ type AdModerationHistory = {
 
 type AdStatus = "pending" | "approved" | "rejected" | "draft";
 
+type AdSorting = "createdAt" | "price" | "priority";
+
 const StatusTitles = {
   pending: "На модерации",
   rejected: "Отклонено",
@@ -46,4 +48,10 @@ const ModerationActions = {
   requestChanges: "Нужны изменения",
 } as const;
 
-export { type Ad, type AdStatus, StatusTitles, ModerationActions };
+export {
+  type Ad,
+  type AdStatus,
+  type AdSorting,
+  StatusTitles,
+  ModerationActions,
+};
