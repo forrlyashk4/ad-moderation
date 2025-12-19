@@ -1,4 +1,5 @@
 import { Typography, Card, Row, Col, Statistic } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const { Title: TypographyTitle } = Typography;
 
@@ -19,6 +20,7 @@ import type {
   GETStatsDecisionsResponse,
   GETStatsSummaryResponse,
 } from "../../../entities/stats";
+import { Link } from "react-router";
 
 ChartJS.register(
   CategoryScale,
@@ -163,14 +165,32 @@ export default function StatsComponent({
 
   return (
     <div style={{ maxWidth: "786px", margin: "0 auto" }}>
-      <TypographyTitle level={2} style={{ marginBottom: "25px" }}>
+      <TypographyTitle
+        level={5}
+        style={{ marginBottom: 0, fontSize: 14, fontWeight: 400 }}
+      >
+        <Link
+          to={`/list`}
+          style={{
+            color: "black",
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
+          <ArrowLeftOutlined style={{ fontSize: 10 }} /> К списку
+        </Link>
+      </TypographyTitle>
+      <TypographyTitle
+        level={2}
+        style={{ marginTop: "5px", marginBottom: "25px" }}
+      >
         Ваша статистика за{" "}
         <span style={{ color: "rgb(22, 119, 255)", cursor: "pointer" }}>
           неделю
           {/* todo: добавить остальные временные отрезки и их выбор здесь */}
         </span>
       </TypographyTitle>
-
       <Row gutter={24} style={{ marginBottom: "25px" }}>
         <Col span={12}>
           <Card variant="outlined">
@@ -217,7 +237,6 @@ export default function StatsComponent({
           </Card>
         </Col>
       </Row>
-
       <div
         style={{
           marginBottom: "25px",

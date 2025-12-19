@@ -5,14 +5,15 @@ import {
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import { StatusTitles } from "../../../entities/ad";
-import { Flex, Card, Result, Typography } from "antd";
+import { Flex, Card, Result, Typography, FloatButton } from "antd";
 import { formatDate } from "../../../shared";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 const { Title, Paragraph } = Typography;
 
 import type { GETAdsListResponse } from "../../../entities/ad/api/types"; // todo: нужно прочекать КАЖДЫЙ импорт на предмет того, что не нарушаются правила FSD
 
 export const AdList = function ({ data }: { data: GETAdsListResponse }) {
+  const navigate = useNavigate();
   // todo: почему-то при назад/вперед в браузере не происходит прогрузка страницы, хотя /stats и /list прогружаются
   return (
     <Flex // todo: change to Grid component
@@ -84,6 +85,7 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
           title="Объявлений к модерации не найдено!"
         />
       )}
+      <FloatButton onClick={() => navigate("/stats")} />
     </Flex>
   );
 };

@@ -1,9 +1,9 @@
-import { Typography, Carousel, Button, Table } from "antd";
+import { Typography, Carousel, Button, Table, FloatButton } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ModerationActions } from "../../../entities/ad";
 import { formatDate } from "../../../shared";
 import type { UseMutateFunction } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import type {
   POSTAdActionResponse,
   POSTAdActionRequest,
@@ -21,6 +21,7 @@ export default function AdItemComponent({
   // todo: адекватно ли эта запись?
   mutateFn: UseMutateFunction<POSTAdActionResponse, Error, POSTAdActionRequest>;
 }) {
+  const navigate = useNavigate();
   const dataSource = Object.entries(item.characteristics).map(
     ([key, value]) => ({
       key,
@@ -194,6 +195,7 @@ export default function AdItemComponent({
           </Link>
         </div>
       </div>
+      <FloatButton onClick={() => navigate("/stats")} />
     </div>
   );
 }
