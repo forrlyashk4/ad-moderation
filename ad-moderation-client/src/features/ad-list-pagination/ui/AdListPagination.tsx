@@ -16,6 +16,7 @@ export const AdListPagination = observer(function ({
       onChange={paginationStore.changePage}
       pageSize={itemsPerPage}
       total={totalItems}
+      showTotal={(total) => `Объявлений: ${total}`}
       showSizeChanger={false}
       style={{ marginBottom: "16px" }}
     />
