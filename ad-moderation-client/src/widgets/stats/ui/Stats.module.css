@@ -1,0 +1,64 @@
+.title {
+  margin-top: 5px;
+  margin-bottom: 25px;
+  display: flex;
+  gap: 16px;
+}
+
+.container {
+  max-width: 786px;
+  margin: 0 auto;
+}
+
+.forwardBack {
+  margin-bottom: 0;
+  font-size: 14;
+  font-weight: 400;
+}
+
+.forwardBackLink {
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 4;
+}
+
+.select {
+  width: 120;
+  color: rgb(22, 119, 255);
+}
+
+.cardRootDefault :global(.ant-statistic-content) {
+  color: rgb(22, 119, 255);
+}
+
+.cardRootDanger :global(.ant-statistic-content) {
+  color: rgba(255, 99, 132);
+}
+
+.cardRootPrimary :global(.ant-statistic-content) {
+  color: rgba(54, 235, 96);
+}
+
+.cardRow {
+  margin-bottom: 25px;
+}
+
+.chartItem {
+  margin-bottom: 25px;
+  padding: 25px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  max-height: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+:global(:root[data-theme="dark"]) .chartItem {
+  border-color: #303030;
+  background: #141414;
+}
+
+.chartItem:last-child {
+  margin-bottom: 75px;
+}

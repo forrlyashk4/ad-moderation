@@ -30,7 +30,6 @@ const initialFilters: Filters = {
 export default function AdListFilters() {
   const { filters: queryFilters, setParams } = useAdListQuery();
   const [currentFilters, setCurrentFilters] = useState<Filters>(() => ({
-    // todo: а нужен ли теперь вообще useState, если мы храним всё в URL?
     status: queryFilters.status.join(","),
     category: queryFilters.category,
     minPrice: queryFilters.minPrice,

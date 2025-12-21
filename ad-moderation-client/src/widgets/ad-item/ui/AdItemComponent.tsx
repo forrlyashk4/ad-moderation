@@ -18,7 +18,6 @@ export default function AdItemComponent({
   mutateFn,
 }: {
   item: Ad;
-  // todo: адекватно ли эта запись?
   mutateFn: UseMutateFunction<POSTAdActionResponse, Error, POSTAdActionRequest>;
 }) {
   const navigate = useNavigate();
@@ -70,7 +69,7 @@ export default function AdItemComponent({
             borderRadius: "5px",
             boxSizing: "border-box",
             maxHeight: "400px",
-            overflowY: "scroll",
+            overflowY: "auto",
           }}
         >
           <Paragraph>{item.description}</Paragraph>
@@ -158,32 +157,9 @@ export default function AdItemComponent({
           margin: "25px 0 50px",
         }}
       >
-        <Link
-          to="/list"
-          style={{
-            textDecoration: "none",
-            color: "inherit",
-            fontFamily:
-              '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-          }}
-        >
-          К списку
-        </Link>
-        <div>
+        <Paragraph>
           <Link
-            to={`/item/${item.id - 1}`} // todo: провалидировать чтобы не падало ниже начала списка (скорее всего единицы)
-            style={{
-              marginRight: "15px",
-              textDecoration: "none",
-              color: "inherit",
-              fontFamily:
-                '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-            }} // todo: сделать стили нормальными - CSS Modules как вариант
-          >
-            Предыдущее
-          </Link>
-          <Link
-            to={`/item/${item.id + 1}`} // todo: провалидировать чтобы не падало выше конца списка
+            to="/list"
             style={{
               textDecoration: "none",
               color: "inherit",
@@ -191,8 +167,37 @@ export default function AdItemComponent({
                 '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
             }}
           >
-            Следующее
+            К списку
           </Link>
+        </Paragraph>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <Paragraph>
+            <Link
+              to={`/item/${item.id - 1}`} // todo: провалидировать чтобы не падало ниже начала списка (скорее всего единицы)
+              style={{
+                marginRight: "15px",
+                textDecoration: "none",
+                color: "inherit",
+                fontFamily:
+                  '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+              }} // todo: сделать стили нормальными - CSS Modules как вариант
+            >
+              Предыдущее
+            </Link>
+          </Paragraph>
+          <Paragraph>
+            <Link
+              to={`/item/${item.id + 1}`} // todo: провалидировать чтобы не падало выше конца списка
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                fontFamily:
+                  '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+              }}
+            >
+              Следующее
+            </Link>
+          </Paragraph>
         </div>
       </div>
       <FloatButton onClick={() => navigate("/stats")} />

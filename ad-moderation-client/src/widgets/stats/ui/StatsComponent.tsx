@@ -1,5 +1,6 @@
 import { Typography, Card, Row, Col, Statistic, Select } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import styles from "./Stats.module.css";
 
 const { Title: TypographyTitle } = Typography;
 
@@ -75,6 +76,12 @@ const categoriesOptions = {
     },
   },
 };
+
+const periodOptions = [
+  { value: "today", label: "сегодня" },
+  { value: "week", label: "неделю" },
+  { value: "month", label: "месяц" },
+];
 
 export default function StatsComponent({
   summaryData,
@@ -168,127 +175,70 @@ export default function StatsComponent({
   }
 
   return (
-    <div style={{ maxWidth: "786px", margin: "0 auto" }}>
-      <TypographyTitle
-        level={5}
-        style={{ marginBottom: 0, fontSize: 14, fontWeight: 400 }}
-      >
-        <Link
-          to={`/list`}
-          style={{
-            color: "black",
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          }}
-        >
-          <ArrowLeftOutlined style={{ fontSize: 10 }} /> К списку
+    <div className={styles.container}>
+      <TypographyTitle level={5} className={styles.forwardBack}>
+        <Link to={`/list`} className={styles.forwardBackLink}>
+          <ArrowLeftOutlined /> К списку объявлений
         </Link>
       </TypographyTitle>
-      <TypographyTitle
-        level={2}
-        style={{
-          marginTop: "5px",
-          marginBottom: "25px",
-          display: "flex",
-          gap: "16px",
-        }}
-      >
+      <TypographyTitle level={2} className={styles.title}>
         Ваша статистика за{" "}
         <Select
           value={period}
-          style={{ width: 120, color: "rgb(22, 119, 255)" }}
+          className={styles.select}
           onChange={setPeriod}
-          options={[
-            { value: "today", label: "сегодня" },
-            { value: "week", label: "неделю" },
-            { value: "month", label: "месяц" },
-          ]}
+          options={periodOptions}
         />
       </TypographyTitle>
-      <Row gutter={24} style={{ marginBottom: "25px" }}>
+      <Row gutter={24} className={styles.cardRow}>
         <Col span={12}>
-          <Card variant="outlined">
+          <Card variant="outlined" className={styles.cardRootDefault}>
             <Statistic
               title="Всего проверено"
               value={summaryData.totalReviewed}
-              styles={{ content: { color: "rgb(22, 119, 255)" } }}
               suffix="объявлений"
             />
           </Card>
         </Col>
         <Col span={12}>
-          <Card variant="outlined">
+          <Card variant="outlined" className={styles.cardRootDefault}>
             <Statistic
               title="Среднее время на объявление"
               value={summaryData.averageReviewTime}
-              styles={{ content: { color: "rgb(22, 119, 255)" } }}
               suffix="сек."
             />
           </Card>
         </Col>
       </Row>
-      <Row gutter={24} style={{ marginBottom: "25px" }}>
+      <Row gutter={24} className={styles.cardRow}>
         <Col span={12}>
-          <Card variant="outlined">
+          <Card variant="outlined" className={styles.cardRootPrimary}>
             <Statistic
               title="Процент одобренных"
               value={summaryData.approvedPercentage}
               precision={2}
-              styles={{ content: { color: "rgba(54, 235, 96, 1)" } }}
               suffix="%"
             />
           </Card>
         </Col>
         <Col span={12}>
-          <Card variant="outlined">
+          <Card variant="outlined" className={styles.cardRootDanger}>
             <Statistic
               title="Процент отклонённых"
               value={summaryData.rejectedPercentage}
               precision={2}
-              styles={{ content: { color: "rgba(255, 99, 132, 1)" } }}
               suffix="%"
             />
           </Card>
         </Col>
       </Row>
-      <div
-        style={{
-          marginBottom: "25px",
-          padding: "25px",
-          border: "1px solid #f0f0f0",
-          borderRadius: "8px",
-          maxHeight: "300px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <div className={styles.chartItem}>
         <Bar options={activityOptions} data={normalizedActivityData} />
       </div>
-      <div
-        style={{
-          marginBottom: "25px",
-          padding: "25px",
-          border: "1px solid #f0f0f0",
-          borderRadius: "8px",
-          maxHeight: "300px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <div className={styles.chartItem}>
         <Pie options={decisionsOptions} data={normalizedDecisionsData} />
       </div>
-      <div
-        style={{
-          marginBottom: "75px",
-          padding: "25px",
-          border: "1px solid #f0f0f0",
-          borderRadius: "8px",
-          maxHeight: "300px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <div className={styles.chartItem}>
         <Bar options={categoriesOptions} data={normalizedCategoriesData} />
       </div>
     </div>

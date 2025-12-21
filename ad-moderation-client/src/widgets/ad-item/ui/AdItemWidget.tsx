@@ -25,18 +25,16 @@ export default function AdItemWidget({ id }: { id: string | undefined }) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["adItem"] }),
   });
 
-  return (
-    <>
-      {data && <AdItemComponent item={data} mutateFn={action.mutate} />}
-      {error && (
-        <Result
-          icon={<ExclamationCircleFilled />}
-          title={`Произошла ошибка: ${error.message}`}
-        />
-      )}
-      {isPending && (
-        <Result icon={<LoadingOutlined spin />} title="Идёт загрузка" />
-      )}
-    </>
-  );
+  if (error)
+    return (
+      <Result
+        icon={<ExclamationCircleFilled />}
+        title={`Произошла ошибка: ${error.message}`}
+      />
+    );
+
+  if (isPending)
+    return <Result icon={<LoadingOutlined spin />} title="Идёт загрузка" />;
+
+  return <AdItemComponent item={data} mutateFn={action.mutate} />;
 }
