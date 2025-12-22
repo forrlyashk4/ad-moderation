@@ -1,6 +1,7 @@
 import { Pagination } from "antd";
 import { paginationStore } from "../../../entities/ad-list-pagination";
 import { observer } from "mobx-react-lite";
+import styles from "./AdListPagination.module.css";
 
 export const AdListPagination = observer(function ({
   totalItems,
@@ -18,7 +19,7 @@ export const AdListPagination = observer(function ({
       total={totalItems}
       showTotal={(total) => `Объявлений: ${total}`}
       showSizeChanger={false}
-      style={{ marginBottom: "16px" }}
+      className={styles.pagination}
     />
   );
 });

@@ -1,6 +1,8 @@
 import { Input } from "antd";
 import { memo } from "react";
 
+import styles from "./AdListFilters.module.css";
+
 export const PriceFilter = memo(function PriceFilter({
   minPrice,
   maxPrice,
@@ -15,14 +17,14 @@ export const PriceFilter = memo(function PriceFilter({
   return (
     <div>
       <Input
-        style={{ width: 90 }}
+        className={styles.price}
         value={minPrice === "" ? undefined : minPrice}
         placeholder="От ₽"
         onChange={(e) => onChangeMin(e.target.value)}
         maxLength={6}
       />
       <Input
-        style={{ width: 90, marginLeft: 12 }}
+        className={`${styles.priceEnd} ${styles.price}`}
         value={maxPrice === "" ? undefined : maxPrice}
         placeholder="До ₽"
         onChange={(e) => onChangeMax(e.target.value)}

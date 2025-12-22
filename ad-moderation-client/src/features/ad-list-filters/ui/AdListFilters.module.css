@@ -1,0 +1,24 @@
+.container {
+  margin: 24px 0 24px;
+}
+
+.button {
+  line-height: 1;
+}
+
+.price {
+  width: 90px;
+}
+
+.priceEnd {
+  margin-left: 12px;
+}
+
+.search {
+  width: 240px;
+}
+
+.select {
+  min-width: 160;
+  font-family: var(--ant-font-family);
+}

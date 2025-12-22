@@ -1,0 +1,74 @@
+.container {
+  max-width: 786px;
+  margin: 0 auto;
+}
+
+.carouselImage {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.leftPanel {
+  width: 48%;
+  padding: 15px;
+  border: 1px solid #1677ff5b;
+  border-radius: 5px;
+  box-sizing: border-box;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.rightPanel {
+  width: 48%;
+  max-height: 400px;
+  overflow-y: scroll;
+  padding: 15px;
+  border: 1px solid #1677ff5b;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.tableMargin {
+  margin: 15px 0;
+}
+
+.actionsRow {
+  display: flex;
+  justify-content: flex-start;
+  gap: 25px;
+  margin-top: 25px;
+}
+
+.navRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0 50px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 8px;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.prevLink {
+  margin-right: 15px;
+}
+
+.container :global(.slick-arrow::after) {
+  color: gray;
+}

@@ -1,5 +1,6 @@
 import { FloatButton, Form, Input, Modal, Radio } from "antd";
 import { useState } from "react";
+import style from "./AdAbort.module.css";
 
 export default function AdAbortFloat({
   icon,
@@ -44,7 +45,7 @@ export default function AdAbortFloat({
       <FloatButton
         onClick={() => setOpen(true)}
         icon={icon}
-        style={{ insetInlineEnd: insetInlineEnd }}
+        className={style[`adAbortFloat--${insetInlineEnd}`]}
       />
       <Modal
         title="Basic Modal"

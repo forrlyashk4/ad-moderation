@@ -1,0 +1,70 @@
+.container {
+  margin-bottom: 24px;
+}
+
+.card {
+  width: 300px;
+}
+
+.urgent {
+  box-shadow: 0 2px 8px #7aa9ea;
+  border-radius: 8px;
+  border: 1px solid #7aa9ea;
+}
+
+.coverImage {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.coverImageUrgent {
+  border: 1px solid #7aa9ea;
+  border-bottom: none;
+}
+
+.title {
+  margin-top: 0;
+}
+
+.checkFilled {
+  color: #1677ff !important;
+  cursor: pointer;
+}
+
+.fireFilled {
+  color: #1677ff !important;
+  cursor: default;
+}
+
+.fireOutlined {
+  cursor: default;
+}
+
+.fireOutlined:hover {
+  color: rgba(0, 0, 0, 0.45) !important;
+}
+
+.floatCount {
+  right: 270px !important;
+  width: 175px !important;
+}
+
+.floatCount:hover {
+  cursor: default !important;
+  color: #000 !important;
+  background-color: #fff !important;
+}
+
+.floatApprove {
+  right: 98px !important;
+}
+
+.floatStats {
+  right: 24px !important;
+}
+
+.adItemTitle {
+  margin-top: 0;
+}

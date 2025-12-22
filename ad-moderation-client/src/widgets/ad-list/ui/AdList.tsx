@@ -10,6 +10,7 @@ import {
 import { postAdAction, StatusTitles } from "../../../entities/ad";
 import { Flex, Card, Result, Typography, FloatButton } from "antd";
 import { formatDate } from "../../../shared";
+import styles from "./AdList.module.css";
 import { Link, useNavigate } from "react-router";
 const { Title, Paragraph } = Typography;
 
@@ -81,7 +82,7 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
       wrap
       gap="large"
       justify="space-evenly"
-      style={{ marginBottom: "24px" }}
+      className={styles.container}
       key={data.pagination?.currentPage}
     >
       {data.ads?.length ? (
@@ -90,35 +91,22 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
           return (
             <Card
               key={adItem.id}
-              style={
-                adItem.priority === "urgent"
-                  ? {
-                      width: 300,
-                      boxShadow: "0 2px 8px #7aa9eaff",
-                      borderRadius: 8,
-                      border: `1px solid #7aa9eaff`,
-                    }
-                  : { width: 300 }
-              }
+              className={`${styles.card} ${
+                adItem.priority === "urgent" ? styles.urgent : ""
+              }`}
               cover={
                 <img
                   alt={adItem.title}
                   src={adItem.images[0]}
-                  style={
-                    adItem.priority === "urgent"
-                      ? {
-                          border: "1px solid #7aa9eaff",
-                          borderBottom: "none",
-                          boxSizing: "border-box",
-                        }
-                      : { boxSizing: "border-box" }
-                  }
+                  className={`${styles.coverImage} ${
+                    adItem.priority === "urgent" ? styles.coverImageUrgent : ""
+                  }`}
                 />
               }
               actions={[
                 selectedIds.includes(adItem.id) ? (
                   <CheckCircleFilled
-                    style={{ color: "#1677ff" }}
+                    className={styles.checkFilled}
                     onClick={() =>
                       setSelectedIds((prev) =>
                         prev.filter((item) => item !== adItem.id)
@@ -133,14 +121,14 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
                   />
                 ),
                 adItem.priority === "urgent" ? (
-                  <FireFilled style={{ color: "#1677ff", cursor: "default" }} />
+                  <FireFilled className={styles.fireFilled} />
                 ) : (
-                  <FireOutlined style={{ cursor: "default" }} /> // todo: remove hover effect
+                  <FireOutlined className={styles.fireOutlined} />
                 ),
                 <Link to={`/item/${adItem.id}`}>Открыть</Link>,
               ]}
             >
-              <Title level={5} style={{ marginTop: 0 }}>
+              <Title level={5} className={styles.adItemTitle}>
                 {adItem.title}
               </Title>
               <Paragraph>
@@ -166,7 +154,7 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
           <FloatButton
             content={`Выбрано объявлений: ${selectedIds.length}`}
             shape="square"
-            style={{ insetInlineEnd: 270, width: "175px" }} // todo: remove hover effect of THIS button
+            className={styles.floatCount}
           />
           <AdAbortFloat
             selectedIds={selectedIds}
@@ -184,14 +172,14 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
           />
           <FloatButton
             onClick={handleApprove}
-            style={{ insetInlineEnd: 98 }}
+            className={styles.floatApprove}
             icon={<CheckCircleOutlined />}
           />
         </>
       )}
       <FloatButton
         onClick={() => navigate("/stats")}
-        style={{ insetInlineEnd: 24 }}
+        className={styles.floatStats}
       />
     </Flex>
   );

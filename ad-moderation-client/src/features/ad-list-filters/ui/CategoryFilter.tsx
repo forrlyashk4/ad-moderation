@@ -2,6 +2,8 @@ import { Select } from "antd";
 import { categories } from "../model";
 import { memo } from "react";
 
+import styles from "./AdListFilters.module.css";
+
 export const CategoryFilter = memo(function CategoryFilter({
   value,
   onChange,
@@ -14,10 +16,7 @@ export const CategoryFilter = memo(function CategoryFilter({
       placeholder="Категория"
       value={value === "" ? null : value}
       allowClear
-      style={{
-        minWidth: 160,
-        fontFamily: "var(--ant-font-family)",
-      }}
+      className={styles.select}
       showSearch={{
         optionFilterProp: "label",
         filterSort: (optionA, optionB) =>

@@ -1,6 +1,8 @@
 import { Select } from "antd";
 import { memo } from "react";
 
+import styles from "./AdListFilters.module.css";
+
 export const StatusFilter = memo(function StatusFilter({
   value,
   onChange,
@@ -14,7 +16,7 @@ export const StatusFilter = memo(function StatusFilter({
       mode="multiple"
       value={value === "" ? null : value}
       allowClear
-      style={{ minWidth: 160, fontFamily: "var(--ant-font-family)" }}
+      className={styles.select}
       showSearch={{
         optionFilterProp: "label",
         filterSort: (optionA, optionB) =>

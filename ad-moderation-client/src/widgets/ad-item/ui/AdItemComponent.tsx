@@ -10,6 +10,7 @@ import type {
   Ad,
 } from "../../../entities/ad";
 import { AdAbort } from "../../../features/ad-abort";
+import styles from "./AdItemComponent.module.css";
 
 const { Title, Paragraph } = Typography;
 
@@ -35,49 +36,31 @@ export default function AdItemComponent({
       { title: "Значение", dataIndex: "value", key: "value" },
     ];
   return (
-    <div style={{ maxWidth: "786px", margin: "0 auto" }}>
+    <div className={styles.container}>
       <Title level={2}>{item.title}</Title>
       <Carousel arrows adaptiveHeight autoplay>
         {item.images.map((img) => {
           return (
             <div key={img}>
-              <img src={img} alt={item.title} style={{ margin: "0 auto" }} />
+              <img
+                src={img}
+                alt={item.title}
+                className={styles.carouselImage}
+              />
             </div>
           );
         })}
       </Carousel>
-      <style>{`
-        .ant-carousel .slick-prev,
-        .ant-carousel .slick-next,
-        .ant-carousel .slick-prev:hover,
-        .ant-carousel .slick-next:hover {
-            color: black;
-        }
-      `}</style>
       <div // todo: ну это полный пиздец со стилями сверху :)))) надеюсь уйдет после css modules
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "25px",
-        }}
+        className={styles.topRow}
       >
-        <Typography
-          style={{
-            width: "48%",
-            padding: "15px",
-            border: "1px solid #1677ff5b",
-            borderRadius: "5px",
-            boxSizing: "border-box",
-            maxHeight: "400px",
-            overflowY: "auto",
-          }}
-        >
+        <Typography className={styles.leftPanel}>
           <Paragraph>{item.description}</Paragraph>
           <Table
             columns={columns}
             dataSource={dataSource}
             pagination={false}
-            style={{ margin: "15px 0" }}
+            className={styles.tableMargin}
           />
           <Paragraph>
             Продавец: {item.seller.name} | {item.seller.rating}
@@ -87,17 +70,7 @@ export default function AdItemComponent({
             {formatDate(item.seller.registeredAt)}
           </Paragraph>
         </Typography>
-        <Typography
-          style={{
-            width: "48%",
-            maxHeight: "400px",
-            overflowY: "scroll",
-            padding: "15px",
-            border: "1px solid #1677ff5b",
-            borderRadius: "5px",
-            boxSizing: "border-box",
-          }}
-        >
+        <Typography className={styles.rightPanel}>
           <Paragraph>История модерации</Paragraph>
           {item.moderationHistory.length > 0 ? (
             item.moderationHistory.map((moderation) => {
@@ -121,14 +94,7 @@ export default function AdItemComponent({
           )}
         </Typography>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          gap: "25px",
-          marginTop: "25px",
-        }}
-      >
+      <div className={styles.actionsRow}>
         <Button
           variant="filled"
           color="green"
@@ -150,37 +116,17 @@ export default function AdItemComponent({
           actionName="request-changes"
         />
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "25px 0 50px",
-        }}
-      >
+      <div className={styles.navRow}>
         <Paragraph>
-          <Link
-            to="/list"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              fontFamily:
-                '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-            }}
-          >
+          <Link to="/list" className={styles.link}>
             К списку
           </Link>
         </Paragraph>
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div className={styles.navLinks}>
           <Paragraph>
             <Link
               to={`/item/${item.id - 1}`} // todo: провалидировать чтобы не падало ниже начала списка (скорее всего единицы)
-              style={{
-                marginRight: "15px",
-                textDecoration: "none",
-                color: "inherit",
-                fontFamily:
-                  '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-              }} // todo: сделать стили нормальными - CSS Modules как вариант
+              className={`${styles.link} ${styles.prevLink}`}
             >
               Предыдущее
             </Link>
@@ -188,12 +134,7 @@ export default function AdItemComponent({
           <Paragraph>
             <Link
               to={`/item/${item.id + 1}`} // todo: провалидировать чтобы не падало выше конца списка
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-                fontFamily:
-                  '-apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-              }}
+              className={styles.link}
             >
               Следующее
             </Link>

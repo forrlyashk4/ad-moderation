@@ -7,6 +7,8 @@ import { useState, useCallback } from "react";
 import { useAdListQuery } from "../model";
 import { SortByFilter } from "./SortByFilter";
 
+import styles from "./AdListFilters.module.css";
+
 const { Text } = Typography;
 
 type Filters = {
@@ -85,12 +87,7 @@ export default function AdListFilters() {
   }, [setParams]);
 
   return (
-    <Flex
-      justify="center"
-      align="center"
-      gap={12}
-      style={{ margin: "24px 0 24px" }}
-    >
+    <Flex justify="center" align="center" gap={12} className={styles.container}>
       <Text strong>Фильтры: </Text>
       <StatusFilter value={currentFilters.status} onChange={setStatus} />
       <CategoryFilter value={currentFilters.category} onChange={setCategory} />
@@ -106,7 +103,7 @@ export default function AdListFilters() {
         color="blue"
         variant="outlined"
         size="middle"
-        style={{ lineHeight: 1 }}
+        className={styles.button}
         onClick={onSearch}
       >
         Применить фильтры
@@ -115,7 +112,7 @@ export default function AdListFilters() {
         color="danger"
         variant="text"
         size="middle"
-        style={{ lineHeight: 1 }}
+        className={styles.button}
         onClick={resetFilters}
       >
         Сбросить

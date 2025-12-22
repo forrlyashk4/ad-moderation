@@ -178,7 +178,8 @@ export default function StatsComponent({
     <div className={styles.container}>
       <TypographyTitle level={5} className={styles.forwardBack}>
         <Link to={`/list`} className={styles.forwardBackLink}>
-          <ArrowLeftOutlined /> К списку объявлений
+          <ArrowLeftOutlined className={styles.forwardBackIcon} /> К списку
+          объявлений
         </Link>
       </TypographyTitle>
       <TypographyTitle level={2} className={styles.title}>

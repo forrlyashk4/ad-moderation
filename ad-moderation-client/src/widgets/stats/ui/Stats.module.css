@@ -23,6 +23,10 @@
   gap: 4;
 }
 
+.forwardBackIcon {
+  margin-right: 5px;
+}
+
 .select {
   width: 120;
   color: rgb(22, 119, 255);

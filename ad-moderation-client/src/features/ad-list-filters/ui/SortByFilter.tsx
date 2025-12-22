@@ -2,6 +2,8 @@ import { Select } from "antd";
 import { sortBy } from "../model";
 import { memo } from "react";
 
+import styles from "./AdListFilters.module.css";
+
 export const SortByFilter = memo(function SortByFilter({
   value,
   onChange,
@@ -14,10 +16,7 @@ export const SortByFilter = memo(function SortByFilter({
       placeholder="Сортировать"
       value={value === "" ? null : value}
       allowClear
-      style={{
-        minWidth: 160,
-        fontFamily: "var(--ant-font-family)",
-      }}
+      className={styles.select}
       showSearch={{
         optionFilterProp: "label",
         filterSort: (optionA, optionB) =>
