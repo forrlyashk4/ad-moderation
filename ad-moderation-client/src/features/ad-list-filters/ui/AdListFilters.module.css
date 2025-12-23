@@ -19,6 +19,6 @@
 }
 
 .select {
-  min-width: 160;
+  min-width: 160px;
   font-family: var(--ant-font-family);
 }

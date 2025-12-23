@@ -51,9 +51,7 @@ export default function AdItemComponent({
           );
         })}
       </Carousel>
-      <div // todo: ну это полный пиздец со стилями сверху :)))) надеюсь уйдет после css modules
-        className={styles.topRow}
-      >
+      <div className={styles.topRow}>
         <Typography className={styles.leftPanel}>
           <Paragraph>{item.description}</Paragraph>
           <Table

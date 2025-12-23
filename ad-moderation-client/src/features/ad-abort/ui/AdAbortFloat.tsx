@@ -30,14 +30,10 @@ export default function AdAbortFloat({
   const [form] = Form.useForm();
 
   const onSubmit = async () => {
-    try {
-      const values = await form.validateFields();
-      handleAdAction(selectedIds, actionName, values.reason, values.comment);
-      setOpen(false);
-      form.resetFields();
-    } catch {
-      // todo: ответить что-то, если валидация не проходит
-    }
+    const values = await form.validateFields();
+    handleAdAction(selectedIds, actionName, values.reason, values.comment);
+    setOpen(false);
+    form.resetFields();
   };
 
   return (

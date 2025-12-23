@@ -37,7 +37,7 @@ const activityOptions = {
   plugins: {
     title: {
       display: true,
-      text: "Активность в течение последней недели",
+      text: `Активность за выбранный промежуток`,
     },
   },
   responsive: true,
