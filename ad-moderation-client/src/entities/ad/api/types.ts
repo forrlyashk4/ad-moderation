@@ -51,4 +51,4 @@ export type {
   GETAdItemResponse,
   POSTAdActionRequest,
   POSTAdActionResponse,
-}; // todo: по каждому api-запросу имеет смысл сделать валидацию ошибок: 400, 404 и 500
+};

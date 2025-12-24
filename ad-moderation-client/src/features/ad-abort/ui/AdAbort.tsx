@@ -65,7 +65,6 @@ export default function AdAbort({
                 Подозрение на мошенничество
               </Radio>
               <Radio value="Другое">Другое</Radio>
-              {/* todo: рендер вот этого списка нужно как-то сделать без хардкода названий причин */}
             </Radio.Group>
           </Form.Item>
 

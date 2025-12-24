@@ -38,4 +38,4 @@ export type {
   GETStatsActivityResponse,
   GETStatsDecisionsResponse,
   GETStatsCategoriesResponse,
-}; // todo: по каждому api-запросу имеет смысл сделать валидацию ошибок: 400, 404 и 500
+};

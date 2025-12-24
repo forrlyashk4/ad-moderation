@@ -10,11 +10,12 @@ export const StatusFilter = memo(function StatusFilter({
   value: string;
   onChange: (nextStatus: string) => void;
 }) {
+  const currentValue = Array.isArray(value) ? value : value.split(",");
   return (
     <Select
       placeholder="Статус"
       mode="multiple"
-      value={value === "" ? null : value}
+      value={currentValue[0] === "" ? null : currentValue}
       allowClear
       className={styles.select}
       showSearch={{
@@ -31,6 +32,7 @@ export const StatusFilter = memo(function StatusFilter({
         { value: "rejected", label: "Отклонено" },
         { value: "draft", label: "Черновик" },
       ]}
+      notFoundContent={<p className={styles.notFound}>Ничего не найдено</p>}
     />
   );
 });

@@ -46,6 +46,10 @@
   color: rgba(0, 0, 0, 0.45) !important;
 }
 
+:global(:root[data-theme="dark"]) .fireOutlined:hover {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
 .floatCount {
   right: 270px !important;
   width: 175px !important;

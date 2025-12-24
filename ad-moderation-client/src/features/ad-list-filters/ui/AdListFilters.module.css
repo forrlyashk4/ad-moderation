@@ -22,3 +22,7 @@
   min-width: 160px;
   font-family: var(--ant-font-family);
 }
+
+.notFound {
+  text-align: center;
+}

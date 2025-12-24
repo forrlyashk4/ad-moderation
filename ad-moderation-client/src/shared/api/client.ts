@@ -1,29 +1,30 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// todo: перепроверить этот файл, он сгенерен llm - точно ли всё нужно, точно ли всё круто?
 import { API_BASE_URL } from "./config";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
+type Primitive = string | number | boolean;
+type QueryValue = Primitive | Primitive[];
 interface ApiRequestOptions extends RequestInit {
   method?: HttpMethod;
-  params?: Record<string, any>;
+  params?: Record<string, QueryValue | null | undefined>;
   json?: unknown;
 }
 
-export function buildUrl(path: string, params?: Record<string, any>) {
+export function buildUrl(
+  path: string,
+  params?: Record<string, QueryValue | null | undefined>
+) {
   const isAbsolute = /^https?:\/\//i.test(API_BASE_URL);
 
   let url: URL;
 
   if (isAbsolute) {
-    // режим без прокси, прямой запрос на бек
     const base = API_BASE_URL.endsWith("/") ? API_BASE_URL : API_BASE_URL + "/";
 
     const rel = path.startsWith("/") ? path.slice(1) : path;
 
     url = new URL(rel, base);
   } else {
-    // режим с прокси (API_BASE_URL = '/api/v1')
     const basePath = API_BASE_URL.endsWith("/")
       ? API_BASE_URL.slice(0, -1)
       : API_BASE_URL;
@@ -49,6 +50,16 @@ export function buildUrl(path: string, params?: Record<string, any>) {
 
   return url.toString();
 }
+class ApiError extends Error {
+  status: number;
+  body: unknown;
+
+  constructor(status: number, message: string, body: unknown) {
+    super(message);
+    this.status = status;
+    this.body = body;
+  }
+}
 
 export async function apiClient<T>(
   path: string,
@@ -62,19 +73,24 @@ export async function apiClient<T>(
     method,
     headers: {
       ...(json ? { "Content-Type": "application/json" } : {}),
-      ...headers,
+      ...(headers instanceof Headers ? Object.fromEntries(headers) : headers),
     },
     body: json ? JSON.stringify(json) : options.body,
     ...rest,
   });
 
   if (!res.ok) {
-    // тут можешь навесить логирование, обработку 401, 403 и т.п.
-    const text = await res.text().catch(() => "");
-    throw new Error(`Request failed ${res.status} ${res.statusText} ${text}`);
+    let errorBody = null;
+
+    try {
+      errorBody = await res.json();
+    } catch {
+      errorBody = await res.text().catch(() => null);
+    }
+
+    throw new ApiError(res.status, res.statusText, errorBody);
   }
 
-  // если без тела 204 и т.п.
   if (res.status === 204) return undefined as T;
 
   return res.json() as Promise<T>;

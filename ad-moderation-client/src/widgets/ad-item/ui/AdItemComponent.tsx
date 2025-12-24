@@ -1,15 +1,16 @@
-import { Typography, Carousel, Button, Table, FloatButton } from "antd";
+import { Typography, Carousel, Button, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ModerationActions } from "../../../entities/ad";
 import { formatDate } from "../../../shared";
 import type { UseMutateFunction } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import type {
   POSTAdActionResponse,
   POSTAdActionRequest,
   Ad,
 } from "../../../entities/ad";
 import { AdAbort } from "../../../features/ad-abort";
+import { incrementIndex, decrementIndex } from "../../../shared";
 import styles from "./AdItemComponent.module.css";
 
 const { Title, Paragraph } = Typography;
@@ -21,7 +22,6 @@ export default function AdItemComponent({
   item: Ad;
   mutateFn: UseMutateFunction<POSTAdActionResponse, Error, POSTAdActionRequest>;
 }) {
-  const navigate = useNavigate();
   const dataSource = Object.entries(item.characteristics).map(
     ([key, value]) => ({
       key,
@@ -123,7 +123,7 @@ export default function AdItemComponent({
         <div className={styles.navLinks}>
           <Paragraph>
             <Link
-              to={`/item/${item.id - 1}`} // todo: провалидировать чтобы не падало ниже начала списка (скорее всего единицы)
+              to={`/item/${decrementIndex(item.id, 1, 1)}`}
               className={`${styles.link} ${styles.prevLink}`}
             >
               Предыдущее
@@ -131,7 +131,7 @@ export default function AdItemComponent({
           </Paragraph>
           <Paragraph>
             <Link
-              to={`/item/${item.id + 1}`} // todo: провалидировать чтобы не падало выше конца списка
+              to={`/item/${incrementIndex(item.id, 1, 150)}`}
               className={styles.link}
             >
               Следующее
@@ -139,7 +139,6 @@ export default function AdItemComponent({
           </Paragraph>
         </div>
       </div>
-      <FloatButton onClick={() => navigate("/stats")} />
     </div>
   );
 }

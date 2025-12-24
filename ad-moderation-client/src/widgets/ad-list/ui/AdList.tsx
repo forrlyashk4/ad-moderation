@@ -22,6 +22,7 @@ import type {
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdAbortFloat } from "../../../features/ad-abort";
+import { ThemeChanger } from "../../../features/theme";
 
 export const AdList = function ({ data }: { data: GETAdsListResponse }) {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
     >
       {data.ads?.length ? (
         data.ads.map((adItem) => {
-          // todo: add Skeleton
+          // todo: add Skeleton on every page
           return (
             <Card
               key={adItem.id}
@@ -181,6 +182,7 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
         onClick={() => navigate("/stats")}
         className={styles.floatStats}
       />
+      <ThemeChanger />
     </Flex>
   );
 };

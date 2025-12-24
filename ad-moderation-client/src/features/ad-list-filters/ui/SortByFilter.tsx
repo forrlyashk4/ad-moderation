@@ -28,6 +28,7 @@ export const SortByFilter = memo(function SortByFilter({
         next != undefined ? onChange(next) : onChange("")
       }
       options={sortBy}
+      notFoundContent={<p className={styles.notFound}>Ничего не найдено</p>}
     />
   );
 });
