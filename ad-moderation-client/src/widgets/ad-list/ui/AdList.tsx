@@ -77,7 +77,6 @@ export const AdList = function ({ data }: { data: GETAdsListResponse }) {
     queryClient.invalidateQueries({ queryKey: ["adList"] });
   }; // todo: точно ли нужно здесь по FSD хранить эти функции
 
-  // todo: почему-то при назад/вперед в браузере не происходит прогрузка страницы, хотя /stats и /list прогружаются
   return (
     <Flex // todo: change to Grid component
       wrap

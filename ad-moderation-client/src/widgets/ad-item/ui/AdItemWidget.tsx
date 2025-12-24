@@ -9,6 +9,8 @@ import type {
   POSTAdActionResponse,
 } from "../../../entities/ad/api";
 
+// todo: почему-то при назад/вперед в браузере не происходит прогрузка страницы, хотя /stats и /list прогружаются
+
 export default function AdItemWidget({ id }: { id: string | undefined }) {
   const { isPending, error, data } = useQuery({
     queryKey: ["adItem", id],
